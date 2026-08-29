@@ -24,9 +24,9 @@ corepack pnpm install
 
 ## Intended Packages
 
-- `@teemoto/iconkit`: primary CLI package, exposing the `iconkit` command
-- `@iconkit/core`: shared generation engine
-- `@iconkit/web`: web application
+- `@icon-kit/cli`: primary CLI package, exposing the `iconkit` command
+- `@icon-kit/core`: shared generation engine
+- `@icon-kit/web`: web application
 
 ## License
 

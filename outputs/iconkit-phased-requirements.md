@@ -56,9 +56,9 @@ Build the shared technical base so later UI and CLI features do not fork behavio
 - Test fixtures for output correctness
 - Licensing framework for any bundled open-source icon libraries
 - Clear package boundaries:
-  - `@iconkit/core`
-  - `iconkit`
-  - `@iconkit/web`
+  - `@icon-kit/core`
+  - `@icon-kit/cli`
+  - `@icon-kit/web`
 
 ### Deliverables
 

@@ -150,9 +150,9 @@ Developers and small teams regularly lose time generating trivial but required b
 
 ## Proposed Architecture Direction
 
-- `@iconkit/core`: rendering, presets, config schema, export pipeline
-- `iconkit`: command-line interface for local and CI usage
-- `@iconkit/web`: user interface for upload, composition, preview, and export
+- `@icon-kit/core`: rendering, presets, config schema, export pipeline
+- `@icon-kit/cli`: command-line interface for local and CI usage
+- `@icon-kit/web`: user interface for upload, composition, preview, and export
 
 This structure is preferred over making the npm package a thin wrapper around the UI because it keeps the core logic reusable and testable.
 
