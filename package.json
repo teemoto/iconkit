@@ -1,0 +1,37 @@
+{
+  "name": "iconkit",
+  "version": "0.0.1",
+  "description": "Open-source brand asset generator for web apps.",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "pnpm@11.22.0",
+  "bin": {
+    "iconkit": "./bin/iconkit.js"
+  },
+  "files": [
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/teemoto/iconkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/teemoto/iconkit/issues"
+  },
+  "homepage": "https://github.com/teemoto/iconkit#readme",
+  "scripts": {
+    "start": "node ./bin/iconkit.js"
+  },
+  "keywords": [
+    "favicon",
+    "icon",
+    "logo",
+    "pwa",
+    "asset-generator"
+  ]
+}

@@ -8,6 +8,15 @@ IconKit turns an existing logo or a simple icon-based composition into productio
 
 Planning and MVP definition are in progress. The initial product will provide a web interface and CLI backed by the same generation engine.
 
+## Development
+
+IconKit uses pnpm through Corepack. Enable Corepack once, then install dependencies from the repository root:
+
+```sh
+corepack enable
+corepack pnpm install
+```
+
 ## Planning Documents
 
 - [MVP product requirements](outputs/iconkit-mvp-prd.md)
