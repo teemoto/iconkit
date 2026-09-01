@@ -10,7 +10,15 @@ Planning and MVP definition are in progress. The initial product will provide a 
 
 ## Development
 
-IconKit uses pnpm through Corepack. Enable Corepack once, then install dependencies from the repository root:
+IconKit uses Node.js `24.11.1` and pnpm through Corepack. With [nvm](https://github.com/nvm-sh/nvm), install and select the pinned runtime, then install dependencies from the repository root:
+
+```sh
+nvm install
+corepack enable
+corepack pnpm install
+```
+
+If you do not use nvm, install Node.js `24.11.1` before enabling Corepack:
 
 ```sh
 corepack enable

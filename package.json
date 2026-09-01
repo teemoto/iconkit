@@ -4,7 +4,7 @@
   "type": "module",
   "packageManager": "pnpm@11.22.0",
   "engines": {
-    "node": ">=20"
+    "node": ">=24.11.1 <25"
   },
   "scripts": {
     "start": "pnpm --filter @icon-kit/cli start",
