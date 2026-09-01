@@ -1,0 +1,7 @@
+node_modules/
+build/
+coverage/
+dist/
+pnpm-lock.yaml
+work/
+docs/build-journal.md

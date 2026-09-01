@@ -18,5 +18,8 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Local project notes
+docs/build-journal.md
+
 # OS files
 .DS_Store

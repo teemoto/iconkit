@@ -1,11 +1,27 @@
 {
   "name": "iconkit-workspace",
   "private": true,
+  "type": "module",
   "packageManager": "pnpm@11.22.0",
   "engines": {
     "node": ">=20"
   },
   "scripts": {
-    "start": "pnpm --filter @icon-kit/cli start"
+    "start": "pnpm --filter @icon-kit/cli start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit --project tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "build": "pnpm -r --if-present run build",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.9.1",
+    "globals": "^17.11.0",
+    "prettier": "^3.9.6",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.68.0",
+    "vitest": "^4.1.11"
   }
 }
