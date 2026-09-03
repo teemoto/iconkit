@@ -1,0 +1,36 @@
+name: Feature request
+description: Propose a focused improvement to IconKit.
+title: '[Feature]: '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        IconKit's MVP focuses on deterministic asset generation. Please describe the developer problem first, then the proposed solution.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: Who has this problem, and what is difficult today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the smallest useful change.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Include existing workarounds or other approaches.
+    validations:
+      required: false
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I would be willing to help implement this feature.
+          required: false

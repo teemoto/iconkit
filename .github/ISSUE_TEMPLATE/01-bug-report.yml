@@ -1,0 +1,48 @@
+name: Bug report
+description: Report a reproducible problem with IconKit.
+title: '[Bug]: '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a problem. Please do not include security-sensitive details here; use the private process in SECURITY.md instead.
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the observed behavior and its impact.
+      placeholder: IconKit generated a 512px PWA icon with the wrong filename.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Provide the smallest reproducible command, configuration, or UI path.
+      placeholder: |
+        1. Run ...
+        2. Select ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: IconKit version or commit
+      placeholder: 0.0.1 or abc1234
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Include OS, Node.js version, pnpm version, and browser where relevant.
+      placeholder: macOS 15, Node 24.11.1, pnpm 11.22.0
+    validations:
+      required: true
