@@ -1,0 +1,116 @@
+{
+  "$schema": "https://iconkit.dev/schemas/iconkit.preset.schema.json",
+  "version": 1,
+  "presets": [
+    {
+      "id": "web-favicon",
+      "version": 1,
+      "title": "Website favicon",
+      "description": "Favicon PNGs, a multi-size ICO, and an Apple touch icon.",
+      "outputs": [
+        {
+          "outputDirectory": "web/favicon",
+          "filename": "favicon.ico",
+          "format": "ico",
+          "dimensions": [
+            { "width": 16, "height": 16 },
+            { "width": 32, "height": 32 },
+            { "width": 48, "height": 48 }
+          ]
+        },
+        {
+          "outputDirectory": "web/favicon",
+          "filename": "favicon-16x16.png",
+          "format": "png",
+          "dimensions": [{ "width": 16, "height": 16 }]
+        },
+        {
+          "outputDirectory": "web/favicon",
+          "filename": "favicon-32x32.png",
+          "format": "png",
+          "dimensions": [{ "width": 32, "height": 32 }]
+        },
+        {
+          "outputDirectory": "web/favicon",
+          "filename": "favicon-48x48.png",
+          "format": "png",
+          "dimensions": [{ "width": 48, "height": 48 }]
+        },
+        {
+          "outputDirectory": "web/favicon",
+          "filename": "apple-touch-icon.png",
+          "format": "png",
+          "dimensions": [{ "width": 180, "height": 180 }]
+        }
+      ]
+    },
+    {
+      "id": "pwa",
+      "version": 1,
+      "title": "Progressive web app",
+      "description": "Standard and maskable PNG icons for web app manifests.",
+      "outputs": [
+        {
+          "outputDirectory": "pwa/icons",
+          "filename": "icon-192.png",
+          "format": "png",
+          "dimensions": [{ "width": 192, "height": 192 }],
+          "options": { "purpose": "any" }
+        },
+        {
+          "outputDirectory": "pwa/icons",
+          "filename": "icon-512.png",
+          "format": "png",
+          "dimensions": [{ "width": 512, "height": 512 }],
+          "options": { "purpose": "any" }
+        },
+        {
+          "outputDirectory": "pwa/icons",
+          "filename": "icon-maskable-192.png",
+          "format": "png",
+          "dimensions": [{ "width": 192, "height": 192 }],
+          "options": { "purpose": "maskable", "safeArea": "maskable" }
+        },
+        {
+          "outputDirectory": "pwa/icons",
+          "filename": "icon-maskable-512.png",
+          "format": "png",
+          "dimensions": [{ "width": 512, "height": 512 }],
+          "options": { "purpose": "maskable", "safeArea": "maskable" }
+        }
+      ]
+    },
+    {
+      "id": "chrome-extension",
+      "version": 1,
+      "title": "Chrome extension",
+      "description": "PNG icons for a Chrome extension manifest and toolbar use.",
+      "outputs": [
+        {
+          "outputDirectory": "chrome-extension/icons",
+          "filename": "icon-16.png",
+          "format": "png",
+          "dimensions": [{ "width": 16, "height": 16 }]
+        },
+        {
+          "outputDirectory": "chrome-extension/icons",
+          "filename": "icon-32.png",
+          "format": "png",
+          "dimensions": [{ "width": 32, "height": 32 }]
+        },
+        {
+          "outputDirectory": "chrome-extension/icons",
+          "filename": "icon-48.png",
+          "format": "png",
+          "dimensions": [{ "width": 48, "height": 48 }]
+        },
+        {
+          "outputDirectory": "chrome-extension/icons",
+          "filename": "icon-128.png",
+          "format": "png",
+          "dimensions": [{ "width": 128, "height": 128 }]
+        }
+      ]
+    }
+  ]
+}

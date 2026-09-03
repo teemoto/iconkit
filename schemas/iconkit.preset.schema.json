@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iconkit.dev/schemas/iconkit.preset.schema.json",
+  "title": "IconKit Preset Registry",
+  "description": "Versioned definitions of target asset outputs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "presets"],
+  "properties": {
+    "$schema": {
+      "const": "https://iconkit.dev/schemas/iconkit.preset.schema.json"
+    },
+    "version": {
+      "const": 1
+    },
+    "presets": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/preset"
+      }
+    }
+  },
+  "$defs": {
+    "preset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "title", "description", "outputs"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/output"
+          }
+        },
+        "options": {
+          "type": "object",
+          "additionalProperties": true,
+          "default": {}
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outputDirectory", "filename", "format", "dimensions"],
+      "properties": {
+        "outputDirectory": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9./-]*$",
+          "description": "Relative directory under the caller-selected output root."
+        },
+        "filename": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]*$"
+        },
+        "format": {
+          "enum": ["png", "ico", "svg"]
+        },
+        "dimensions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/dimension"
+          },
+          "description": "One raster dimension or the embedded raster sizes for ICO."
+        },
+        "options": {
+          "type": "object",
+          "additionalProperties": true,
+          "default": {}
+        }
+      }
+    },
+    "dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["width", "height"],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}
