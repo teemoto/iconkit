@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iconkit.dev/schemas/iconkit.config.schema.json",
+  "title": "IconKit Config",
+  "description": "Portable, versioned IconKit composition and preset request. Filesystem output behavior is intentionally excluded.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "source", "canvas", "targets"],
+  "properties": {
+    "$schema": {
+      "const": "https://iconkit.dev/schemas/iconkit.config.schema.json"
+    },
+    "version": {
+      "const": 1,
+      "description": "The IconKit configuration schema version."
+    },
+    "source": {
+      "$ref": "#/$defs/source"
+    },
+    "canvas": {
+      "$ref": "#/$defs/canvas"
+    },
+    "targets": {
+      "type": "array",
+      "description": "Requested asset preset IDs.",
+      "items": {
+        "enum": ["web-favicon", "pwa", "chrome-extension"]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "vectorOutput": {
+      "enum": ["when-vector-safe", "never"],
+      "default": "when-vector-safe",
+      "description": "Whether to include an additional SVG artifact when the composition passes vector-safety analysis."
+    }
+  },
+  "$defs": {
+    "color": {
+      "type": "string",
+      "pattern": "^#[A-Fa-f0-9]{6}$",
+      "description": "An opaque RGB color in #RRGGBB notation."
+    },
+    "source": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "path", "format"],
+          "properties": {
+            "kind": {
+              "const": "file"
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1,
+              "description": "A portable, project-relative source path."
+            },
+            "format": {
+              "enum": ["png", "svg"]
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[A-Fa-f0-9]{64}$",
+              "description": "Optional source-content hash for drift detection."
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "catalog", "catalogVersion", "id"],
+          "properties": {
+            "kind": {
+              "const": "catalog-icon"
+            },
+            "catalog": {
+              "const": "lucide"
+            },
+            "catalogVersion": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Pinned upstream catalog release used to create the mark."
+            },
+            "id": {
+              "type": "string",
+              "pattern": "^lucide:[a-z0-9]+(?:-[a-z0-9]+)*$"
+            }
+          }
+        }
+      ]
+    },
+    "canvas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["padding", "background", "shape"],
+      "properties": {
+        "padding": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.4,
+          "default": 0.12,
+          "description": "Equal normalized inset on every side of the square canvas."
+        },
+        "background": {
+          "$ref": "#/$defs/background"
+        },
+        "shape": {
+          "$ref": "#/$defs/shape"
+        },
+        "iconColor": {
+          "$ref": "#/$defs/color",
+          "description": "Optional color override for catalog icons and eligible currentColor SVGs."
+        }
+      }
+    },
+    "background": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": {
+              "const": "transparent"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "color"],
+          "properties": {
+            "type": {
+              "const": "solid"
+            },
+            "color": {
+              "$ref": "#/$defs/color"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "from", "to", "angle"],
+          "properties": {
+            "type": {
+              "const": "linear-gradient"
+            },
+            "from": {
+              "$ref": "#/$defs/color"
+            },
+            "to": {
+              "$ref": "#/$defs/color"
+            },
+            "angle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 359
+            }
+          }
+        }
+      ]
+    },
+    "shape": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": {
+              "const": "square"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "cornerRadius"],
+          "properties": {
+            "type": {
+              "const": "rounded-square"
+            },
+            "cornerRadius": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.5,
+              "default": 0.2
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": {
+              "const": "circle"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

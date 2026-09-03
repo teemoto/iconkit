@@ -1,0 +1,20 @@
+{
+  "$schema": "https://iconkit.dev/schemas/iconkit.config.schema.json",
+  "version": 1,
+  "source": {
+    "kind": "file",
+    "path": "brand/logo.svg",
+    "format": "svg"
+  },
+  "canvas": {
+    "padding": 0.12,
+    "background": {
+      "type": "transparent"
+    },
+    "shape": {
+      "type": "square"
+    }
+  },
+  "targets": ["web-favicon", "pwa"],
+  "vectorOutput": "when-vector-safe"
+}

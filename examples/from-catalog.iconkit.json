@@ -1,0 +1,26 @@
+{
+  "$schema": "https://iconkit.dev/schemas/iconkit.config.schema.json",
+  "version": 1,
+  "source": {
+    "kind": "catalog-icon",
+    "catalog": "lucide",
+    "catalogVersion": "pending-catalog-import",
+    "id": "lucide:camera"
+  },
+  "canvas": {
+    "padding": 0.16,
+    "background": {
+      "type": "linear-gradient",
+      "from": "#2563EB",
+      "to": "#7C3AED",
+      "angle": 45
+    },
+    "shape": {
+      "type": "rounded-square",
+      "cornerRadius": 0.2
+    },
+    "iconColor": "#FFFFFF"
+  },
+  "targets": ["web-favicon", "pwa", "chrome-extension"],
+  "vectorOutput": "when-vector-safe"
+}
