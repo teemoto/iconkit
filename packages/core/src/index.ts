@@ -103,3 +103,5 @@ export interface PresetDefinition {
 
 export { decodePng, initializePngDecoder, inspectPng } from './png.js';
 export type { DecodedRaster, PngMetadata, RasterDecoder } from './png.js';
+export { inspectSvg } from './svg.js';
+export type { SvgAsset, SvgMetadata } from './svg.js';
