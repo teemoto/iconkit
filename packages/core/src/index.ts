@@ -100,3 +100,6 @@ export interface PresetDefinition {
   readonly outputs: readonly PresetOutput[];
   readonly options?: Readonly<Record<string, string | number | boolean>>;
 }
+
+export { inspectPng } from './png.js';
+export type { PngMetadata, RasterDecoder } from './png.js';
