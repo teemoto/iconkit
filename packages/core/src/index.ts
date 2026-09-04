@@ -33,3 +33,70 @@ export interface ValidationResult<T> {
   readonly diagnostics: readonly Diagnostic[];
   readonly valid: boolean;
 }
+
+export type SourceFormat = 'png' | 'svg';
+export type PresetId = 'chrome-extension' | 'pwa' | 'web-favicon';
+export type VectorOutput = 'never' | 'when-vector-safe';
+
+export interface FileSource {
+  readonly kind: 'file';
+  readonly path: string;
+  readonly format: SourceFormat;
+  readonly sha256?: string;
+}
+
+export interface CatalogIconSource {
+  readonly kind: 'catalog-icon';
+  readonly catalog: 'lucide';
+  readonly catalogVersion: string;
+  readonly id: string;
+}
+
+export type IconSource = CatalogIconSource | FileSource;
+
+export type Background =
+  | { readonly type: 'transparent' }
+  | { readonly type: 'solid'; readonly color: string }
+  | {
+      readonly type: 'linear-gradient';
+      readonly from: string;
+      readonly to: string;
+      readonly angle: number;
+    };
+
+export type CanvasShape =
+  | { readonly type: 'square' }
+  | { readonly type: 'circle' }
+  | { readonly type: 'rounded-square'; readonly cornerRadius: number };
+
+export interface Canvas {
+  readonly padding: number;
+  readonly background: Background;
+  readonly shape: CanvasShape;
+  readonly iconColor?: string;
+}
+
+export interface IconKitConfig {
+  readonly version: 1;
+  readonly source: IconSource;
+  readonly canvas: Canvas;
+  readonly targets: readonly PresetId[];
+  readonly vectorOutput?: VectorOutput;
+}
+
+export interface PresetOutput {
+  readonly outputDirectory: string;
+  readonly filename: string;
+  readonly format: Exclude<AssetFormat, 'json'>;
+  readonly dimensions: readonly Dimension[];
+  readonly options?: Readonly<Record<string, string | number | boolean>>;
+}
+
+export interface PresetDefinition {
+  readonly id: PresetId;
+  readonly version: number;
+  readonly title: string;
+  readonly description: string;
+  readonly outputs: readonly PresetOutput[];
+  readonly options?: Readonly<Record<string, string | number | boolean>>;
+}
