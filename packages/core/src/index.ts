@@ -101,5 +101,5 @@ export interface PresetDefinition {
   readonly options?: Readonly<Record<string, string | number | boolean>>;
 }
 
-export { inspectPng } from './png.js';
-export type { PngMetadata, RasterDecoder } from './png.js';
+export { decodePng, initializePngDecoder, inspectPng } from './png.js';
+export type { DecodedRaster, PngMetadata, RasterDecoder } from './png.js';

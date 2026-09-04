@@ -1,4 +1,5 @@
 import type { Diagnostic, ValidationResult } from './index.js';
+import { decode, init } from '@jsquash/png/decode.js';
 
 const PNG_SIGNATURE = [137, 80, 78, 71, 13, 10, 26, 10] as const;
 const MAX_PIXELS = 16_777_216;
@@ -14,6 +15,16 @@ export interface PngMetadata {
 
 export interface RasterDecoder {
   inspectPng(bytes: Uint8Array): ValidationResult<PngMetadata>;
+}
+
+export interface DecodedRaster extends PngMetadata {
+  readonly pixels: Uint8Array;
+}
+
+export async function initializePngDecoder(
+  moduleOrPath?: Parameters<typeof init>[0],
+): Promise<void> {
+  await init(moduleOrPath);
 }
 
 function error(
@@ -84,4 +95,29 @@ export function inspectPng(bytes: Uint8Array): ValidationResult<PngMetadata> {
     },
     diagnostics: [],
   };
+}
+
+export async function decodePng(
+  bytes: Uint8Array,
+): Promise<ValidationResult<DecodedRaster>> {
+  const inspected = inspectPng(bytes);
+  if (!inspected.valid || !inspected.value) {
+    return { valid: false, diagnostics: inspected.diagnostics };
+  }
+
+  try {
+    const input = Uint8Array.from(bytes).buffer;
+    const image = await decode(input);
+    return {
+      valid: true,
+      value: { ...inspected.value, pixels: new Uint8Array(image.data) },
+      diagnostics: [],
+    };
+  } catch {
+    return error(
+      'PNG_INVALID',
+      'The PNG could not be decoded.',
+      'Re-export the image as a standard PNG.',
+    );
+  }
 }
