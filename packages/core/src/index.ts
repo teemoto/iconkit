@@ -113,3 +113,5 @@ export { renderSvgBackground } from './background.js';
 export type { SvgBackground } from './background.js';
 export { renderSvgCanvasClip } from './shape.js';
 export type { SvgCanvasClip } from './shape.js';
+export { composeSvg } from './compose-svg.js';
+export type { SvgComposition } from './compose-svg.js';

@@ -45,6 +45,7 @@ const ALLOWED_ATTRIBUTES = new Set([
   'points',
   'transform',
   'fill',
+  'color',
   'fill-opacity',
   'fill-rule',
   'stroke',
