@@ -109,3 +109,5 @@ export { normalizeCatalogIcon } from './catalog.js';
 export type { CatalogIcon, CatalogIconInput } from './catalog.js';
 export { computeContainFitLayout, toPixelRect } from './layout.js';
 export type { CanonicalLayout, NormalizedRect, PixelRect } from './layout.js';
+export { renderSvgBackground } from './background.js';
+export type { SvgBackground } from './background.js';
