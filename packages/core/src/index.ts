@@ -115,3 +115,5 @@ export { renderSvgCanvasClip } from './shape.js';
 export type { SvgCanvasClip } from './shape.js';
 export { composeSvg } from './compose-svg.js';
 export type { SvgComposition } from './compose-svg.js';
+export { initializeSvgRasterizer, renderSvgToPng } from './png-renderer.js';
+export type { RenderedPng } from './png-renderer.js';
