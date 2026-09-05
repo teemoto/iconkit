@@ -107,3 +107,5 @@ export { inspectSvg } from './svg.js';
 export type { SvgAsset, SvgMetadata } from './svg.js';
 export { normalizeCatalogIcon } from './catalog.js';
 export type { CatalogIcon, CatalogIconInput } from './catalog.js';
+export { computeContainFitLayout, toPixelRect } from './layout.js';
+export type { CanonicalLayout, NormalizedRect, PixelRect } from './layout.js';
