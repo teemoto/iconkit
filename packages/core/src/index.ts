@@ -121,3 +121,4 @@ export { encodeIco } from './ico.js';
 export type { IcoImage } from './ico.js';
 export { assessVectorOutput } from './vector-output.js';
 export type { VectorOutputDecision } from './vector-output.js';
+export { generateFaviconPreset } from './favicon-preset.js';
