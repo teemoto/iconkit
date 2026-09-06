@@ -8,10 +8,11 @@ import {
 } from '../../src/index.js';
 
 const require = createRequire(import.meta.url);
+const pngFixtures = new URL('../../../../fixtures/png/', import.meta.url);
 
 function fixture(name: string): Uint8Array {
   return Buffer.from(
-    readFileSync(`../../fixtures/png/${name}`, 'utf8').trim(),
+    readFileSync(new URL(name, pngFixtures), 'utf8').trim(),
     'base64',
   );
 }

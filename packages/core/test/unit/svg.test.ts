@@ -2,8 +2,10 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { inspectSvg } from '../../src/index.js';
 
+const svgFixtures = new URL('../../../../fixtures/svg/', import.meta.url);
+
 function fixture(name: string): string {
-  return readFileSync(`../../fixtures/svg/${name}`, 'utf8');
+  return readFileSync(new URL(name, svgFixtures), 'utf8');
 }
 
 describe('inspectSvg', () => {
