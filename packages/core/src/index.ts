@@ -119,3 +119,5 @@ export { initializeSvgRasterizer, renderSvgToPng } from './png-renderer.js';
 export type { RenderedPng } from './png-renderer.js';
 export { encodeIco } from './ico.js';
 export type { IcoImage } from './ico.js';
+export { assessVectorOutput } from './vector-output.js';
+export type { VectorOutputDecision } from './vector-output.js';
