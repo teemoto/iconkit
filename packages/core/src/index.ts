@@ -124,3 +124,5 @@ export type { VectorOutputDecision } from './vector-output.js';
 export { generateFaviconPreset } from './favicon-preset.js';
 export { generatePwaPreset } from './pwa-preset.js';
 export type { PwaPresetOptions } from './pwa-preset.js';
+export { generateChromeExtensionPreset } from './chrome-extension-preset.js';
+export type { ChromeExtensionPreset } from './chrome-extension-preset.js';
