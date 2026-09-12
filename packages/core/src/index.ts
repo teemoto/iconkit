@@ -128,3 +128,11 @@ export { generateChromeExtensionPreset } from './chrome-extension-preset.js';
 export type { ChromeExtensionPreset } from './chrome-extension-preset.js';
 export { planOutputWrite } from './output-plan.js';
 export type { OutputWriteOptions, OutputWritePlan } from './output-plan.js';
+export {
+  createGeneratedFileManifest,
+  serializeGeneratedFileManifest,
+} from './generated-file-manifest.js';
+export type {
+  GeneratedFileManifest,
+  GeneratedFileManifestEntry,
+} from './generated-file-manifest.js';
