@@ -126,3 +126,5 @@ export { generatePwaPreset } from './pwa-preset.js';
 export type { PwaPresetOptions } from './pwa-preset.js';
 export { generateChromeExtensionPreset } from './chrome-extension-preset.js';
 export type { ChromeExtensionPreset } from './chrome-extension-preset.js';
+export { planOutputWrite } from './output-plan.js';
+export type { OutputWriteOptions, OutputWritePlan } from './output-plan.js';
