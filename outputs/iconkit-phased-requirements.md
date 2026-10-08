@@ -4,8 +4,17 @@
 
 - Product: IconKit
 - Type: Full requirements and phased roadmap
-- Status: Draft
+- Status: Active
 - Date: July 28, 2026
+- Last updated: October 8, 2026
+
+## Current Progress
+
+- Phase 0 shared engine, config, rendering, tests, and package boundaries are
+  implemented.
+- Phase 1 web favicon, PWA, iOS, and Chrome extension presets are implemented.
+- The Android asset-contract draft is complete and ready for review; its
+  generator and preview are the remaining native-target work for the MVP.
 
 ## Product Definition
 

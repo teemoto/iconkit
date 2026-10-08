@@ -58,6 +58,7 @@ corepack pnpm run format:check
 - [Web app](apps/web/README.md)
 - [Configuration reference](docs/configuration.md)
 - [Preset and output reference](docs/presets.md)
+- [Android asset contract](outputs/iconkit-android-asset-contract.md)
 - [Manual test plan](docs/manual-testing.md)
 - [Product requirements](outputs/iconkit-mvp-prd.md)
 - [Phased roadmap](outputs/iconkit-phased-requirements.md)

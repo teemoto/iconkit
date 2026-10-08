@@ -19,9 +19,9 @@ presets:
 
 iOS support was added on October 8, 2026 after its complete Xcode asset-catalog
 contract and opacity rules were implemented. The current alpha therefore has a
-fourth preset, `ios-app-icon`. Android launcher assets remain the next
-follow-on preset because they require adaptive foreground/background layers
-and resource XML beyond a simple resized bitmap.
+fourth preset, `ios-app-icon`. The Android packaging contract was drafted on
+October 8, 2026 and is ready for review. Its `android-app-icon` implementation
+remains the next follow-on preset.
 
 This recommendation preserves the main developer value proposition—an existing logo to correctly structured web, PWA, and Chrome extension assets—while avoiding a misleading native-app export that omits the resources and metadata those platforms actually require.
 
@@ -70,9 +70,12 @@ Store icon. It removes the PNG alpha channel and ignores precomposed canvas
 masks because iOS applies the final mask. The `apple-touch-icon.png` remains a
 website convenience asset rather than a substitute for this catalog.
 
-### Native Android app assets
+### Native Android app assets (contract drafted October 8, 2026)
 
-Defer a native `android-app` preset until the composition model supports Android’s adaptive-icon foreground and background layers plus the corresponding resource XML. Android’s current adaptive-icon guidance describes separate layers and device-dependent masks, so a flattened PNG bundle would be incomplete. [Android adaptive icons](https://developer.android.com/develop/ui/compose/system/icon_design_adaptive)
+The proposed [`android-app-icon` contract](iconkit-android-asset-contract.md)
+defines adaptive foreground, background, and monochrome layers; legacy and
+round density resources; adaptive XML; and the separate Google Play listing
+icon. Generator implementation is pending review of that contract.
 
 ## Rendering Rules This Decision Implies
 
@@ -89,6 +92,6 @@ This decision is approved when the project owner confirms:
 1. The original three preset IDs and exact paths above are the M0/M1 contract; `ios-app-icon` extends that contract without changing them.
 2. `apple-touch-icon.png` is included with `web-favicon`.
 3. PWA maskable variants are enabled by default and rendered with safe-area treatment.
-4. Android remains deferred until its adaptive-icon packaging contract is designed and verified.
+4. Android implementation follows the reviewed adaptive-icon packaging contract.
 
 On approval, this document becomes the source for `PresetDefinition` fixtures, CLI help, bundle tests, and generated-file manifests.

@@ -56,4 +56,7 @@ The manifest records paths, formats, dimensions, SHA-256 digests, and preset
 versions. It excludes timestamps and host paths. ZIP entry ordering,
 compression settings, and timestamps are fixed.
 
-Android adaptive icon packaging remains deferred.
+The proposed Android output contract is documented in
+[`outputs/iconkit-android-asset-contract.md`](../outputs/iconkit-android-asset-contract.md).
+Implementation of its adaptive, themed, legacy, and Google Play resources is
+the next preset task.
