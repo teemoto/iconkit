@@ -44,7 +44,7 @@ describe('generateFaviconPreset', () => {
     const result = await generateFaviconPreset(svg);
     for (const file of result.value?.filter((file) => file.format === 'png') ??
       []) {
-      expect(inspectPng(file.bytes).value).toMatchObject(file.dimensions[0]);
+      expect(inspectPng(file.bytes).value).toMatchObject(file.dimensions[0]!);
     }
   });
 

@@ -4,7 +4,7 @@
 
 - Product: IconKit
 - Decision type: Shared validation and generation diagnostics
-- Status: Proposed — requires approval before implementation
+- Status: Approved and implemented
 - Date: September 3, 2026
 
 ## Model

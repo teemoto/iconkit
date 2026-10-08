@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import {
+  getCatalogIcon,
+  listCatalogIcons,
+  LUCIDE_CATALOG_VERSION,
   normalizeCatalogIcon,
+  searchCatalogIcons,
   type CatalogIconInput,
 } from '../../src/index.js';
 
@@ -43,5 +47,29 @@ describe('normalizeCatalogIcon', () => {
     ],
   ] as const)('rejects invalid catalog input with %s', (input, code) => {
     expect(normalizeCatalogIcon(input).diagnostics[0]?.code).toBe(code);
+  });
+});
+
+describe('bundled Lucide catalog', () => {
+  it('ships a normalized, version-pinned curated subset', () => {
+    const icons = listCatalogIcons();
+    expect(LUCIDE_CATALOG_VERSION).toBe('1.50.0');
+    expect(icons).toHaveLength(170);
+    expect(new Set(icons.map((icon) => icon.id)).size).toBe(icons.length);
+    expect(getCatalogIcon('lucide:camera')).toMatchObject({
+      title: 'Camera',
+      license: 'ISC',
+    });
+  });
+
+  it('searches titles, IDs, and tags deterministically', () => {
+    expect(searchCatalogIcons('camera', 3)[0]?.id).toBe('lucide:camera');
+    expect(searchCatalogIcons('shopping').map((icon) => icon.id)).toEqual([
+      'lucide:shopping-bag',
+      'lucide:shopping-cart',
+    ]);
+    expect(searchCatalogIcons('camera', 3)).toEqual(
+      searchCatalogIcons('CAMERA', 3),
+    );
   });
 });

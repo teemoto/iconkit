@@ -4,7 +4,7 @@
 
 - Product: IconKit
 - Decision type: Single-mark composition and vector-preservation contract
-- Status: Proposed — requires approval before implementation
+- Status: Approved and implemented
 - Date: September 3, 2026
 
 ## Recommendation

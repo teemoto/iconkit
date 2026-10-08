@@ -49,7 +49,7 @@ function prefixSourceIds(svg: string): string {
       }
 
       let value = attribute.value.replace(
-        /url\(#([A-Za-z_][\w:.-]*)\)/g,
+        /url\(\s*['"]?#([A-Za-z_][\w:.-]*)['"]?\s*\)/g,
         (match, id: string) => {
           const replacement = ids.get(id);
           return replacement ? `url(#${replacement})` : match;
@@ -65,9 +65,26 @@ function prefixSourceIds(svg: string): string {
   }
 
   const serializer = new XMLSerializer();
-  return Array.from(root.childNodes)
-    .map((node) => serializer.serializeToString(node))
-    .join('');
+  // Preserve inherited presentation attributes on the source root.
+  const group = document.createElement('g');
+  for (const attribute of Array.from(root.attributes)) {
+    if (
+      ![
+        'viewBox',
+        'width',
+        'height',
+        'x',
+        'y',
+        'xmlns',
+        'xmlns:xlink',
+        'preserveAspectRatio',
+      ].includes(attribute.name)
+    )
+      group.setAttribute(attribute.name, attribute.value);
+  }
+  for (const node of Array.from(root.childNodes))
+    group.appendChild(node.cloneNode(true));
+  return serializer.serializeToString(group);
 }
 
 /**

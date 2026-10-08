@@ -4,12 +4,12 @@
 
 - Product: IconKit
 - Decision type: Bundled icon catalog and licensing policy
-- Status: Proposed — requires approval before implementation
+- Status: Approved and implemented with an initial 170-icon subset
 - Date: September 3, 2026
 
 ## Recommendation
 
-Ship a curated, version-pinned subset of **Lucide** icons as the only built-in MVP catalog. Start with roughly 250 broadly useful, non-brand, monochrome symbols and store their normalized SVG plus explicit metadata in `@icon-kit/core` fixtures/data. Do not expose the entire upstream catalog in the first release and do not ship third-party brand marks.
+Ship a curated, version-pinned subset of **Lucide** icons as the only built-in MVP catalog. The first checked-in subset contains 170 broadly useful, non-brand, monochrome symbols with normalized SVG and explicit metadata in `@icon-kit/core`. Do not expose the entire upstream catalog in the first release and do not ship third-party brand marks.
 
 ## Why Lucide
 

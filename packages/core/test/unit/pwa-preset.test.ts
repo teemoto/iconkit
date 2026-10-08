@@ -38,7 +38,7 @@ describe('generatePwaPreset', () => {
       'pwa/icons/icon-maskable-512.png',
     ]);
     for (const file of result.value ?? []) {
-      expect(inspectPng(file.bytes).value).toMatchObject(file.dimensions[0]);
+      expect(inspectPng(file.bytes).value).toMatchObject(file.dimensions[0]!);
       expect(file).toMatchObject({ presetId: 'pwa', presetVersion: 1 });
     }
   });

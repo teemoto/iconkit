@@ -44,7 +44,7 @@ describe('generateChromeExtensionPreset', () => {
       128: 'chrome-extension/icons/icon-128.png',
     });
     for (const file of result.value?.files ?? []) {
-      expect(inspectPng(file.bytes).value).toMatchObject(file.dimensions[0]);
+      expect(inspectPng(file.bytes).value).toMatchObject(file.dimensions[0]!);
       expect(file).toMatchObject({
         presetId: 'chrome-extension',
         presetVersion: 1,

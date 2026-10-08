@@ -4,10 +4,16 @@
 
 - Product: IconKit
 - Decision type: Public shared-engine API
-- Status: Proposed — requires approval before implementation
+- Status: Approved and implemented
 - Date: September 3, 2026
 
 ## Purpose
+
+Implementation status: the four high-level entry points below are exported.
+The implementation also exports `listPresets`, `serializeConfig`, and
+`hashBytes`. `generateBundle` takes targets from `config.targets`; source
+files and saved configs are included in the returned bundle. The package
+[README](../packages/core/README.md) is the concise usage reference.
 
 `@icon-kit/core` is the deterministic, platform-neutral generation engine. It owns validation, source ingestion, composition, preset resolution, generated-file metadata, and ZIP bytes. It does not read arbitrary filesystem paths, access the network, render UI, write files, or initiate downloads.
 

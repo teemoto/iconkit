@@ -33,6 +33,8 @@ function isSafeRelativePath(path: string): boolean {
     path.length > 0 &&
     !path.startsWith('/') &&
     !path.includes('\\') &&
+    !path.includes(':') &&
+    !Array.from(path).some((character) => character.charCodeAt(0) < 32) &&
     !path
       .split('/')
       .some((segment) => segment === '' || segment === '.' || segment === '..')

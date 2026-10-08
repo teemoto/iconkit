@@ -4,12 +4,12 @@
 
 - Product: IconKit
 - Decision type: MVP preset contract
-- Status: Proposed — requires approval before implementation
+- Status: Approved and implemented
 - Date: September 3, 2026
 
 ## Recommendation
 
-Approve three independent generation presets for the first core and CLI release:
+The first core, CLI, and web alpha uses three independent generation presets:
 
 1. `web-favicon`
 2. `pwa`

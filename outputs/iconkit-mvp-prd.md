@@ -148,7 +148,7 @@ Developers and small teams regularly lose time generating trivial but required b
 - The project should remain self-hostable and usable locally due to its open-source model.
 - The architecture should separate shared generation logic from the UI and CLI surfaces.
 
-## Proposed Architecture Direction
+## Implemented Architecture Direction
 
 - `@icon-kit/core`: rendering, presets, config schema, export pipeline
 - `@icon-kit/cli`: command-line interface for local and CI usage

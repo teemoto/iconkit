@@ -1,16 +1,27 @@
 # IconKit
 
-An open-source brand asset generator for developers.
+IconKit is a local-first brand asset generator for developers. Give it an SVG
+or PNG logo and it creates reproducible favicon, PWA, and Chrome extension
+asset packs from one shared engine.
 
-IconKit turns an existing logo or a simple icon-based composition into production-ready assets for websites, PWAs, mobile apps, and browser extensions.
+## Current status
 
-## Status
+The first end-to-end alpha is implemented:
 
-Planning and MVP definition are in progress. The initial product will provide a web interface and CLI backed by the same generation engine.
+- `@icon-kit/core` validates inputs, composes artwork, renders exact PNG and ICO
+  outputs, generates manifests, and creates deterministic ZIP archives.
+- `@icon-kit/cli` generates asset directories or ZIPs from a source file or a
+  saved config.
+- `@icon-kit/web` provides local browser previews and downloads. Source files
+  stay in the browser and are not uploaded.
 
-## Development
+SVG, PNG, and a curated offline catalog of 170 Lucide icons are supported. The
+alpha presets are `web-favicon`, `pwa`, and `chrome-extension`. Native
+iOS/Android packaging remains follow-up work.
 
-IconKit uses Node.js `24.11.1` and pnpm through Corepack. With [nvm](https://github.com/nvm-sh/nvm), install and select the pinned runtime, then install dependencies from the repository root:
+## Quick start
+
+IconKit uses Node.js `24.11.1` and pnpm `11.22.0` through Corepack.
 
 ```sh
 nvm install
@@ -18,23 +29,45 @@ corepack enable
 corepack pnpm install
 ```
 
-If you do not use nvm, install Node.js `24.11.1` before enabling Corepack:
+Generate all three asset groups:
 
 ```sh
-corepack enable
-corepack pnpm install
+corepack pnpm start -- generate --source fixtures/svg/simple.svg --out iconkit-output --zip
 ```
 
-## Planning Documents
+Run the browser app:
 
-- [MVP product requirements](outputs/iconkit-mvp-prd.md)
-- [Phased requirements roadmap](outputs/iconkit-phased-requirements.md)
+```sh
+corepack pnpm dev
+```
 
-## Intended Packages
+Run the complete quality gate:
 
-- `@icon-kit/cli`: primary CLI package, exposing the `iconkit` command
-- `@icon-kit/core`: shared generation engine
-- `@icon-kit/web`: web application
+```sh
+corepack pnpm run lint
+corepack pnpm run typecheck
+corepack pnpm run test
+corepack pnpm run build
+corepack pnpm run format:check
+```
+
+## Documentation
+
+- [CLI reference](packages/cli/README.md)
+- [Core API](packages/core/README.md)
+- [Web app](apps/web/README.md)
+- [Configuration reference](docs/configuration.md)
+- [Preset and output reference](docs/presets.md)
+- [Manual test plan](docs/manual-testing.md)
+- [Product requirements](outputs/iconkit-mvp-prd.md)
+- [Phased roadmap](outputs/iconkit-phased-requirements.md)
+- [Contributing](CONTRIBUTING.md)
+
+## Workspace
+
+- `packages/core`: portable validation, rendering, presets, and archives
+- `packages/cli`: filesystem and terminal adapter
+- `apps/web`: local browser composer, previews, and downloads
 
 ## License
 

@@ -40,5 +40,8 @@ jobs:
       - name: Build
         run: corepack pnpm run build
 
+      - name: Verify package contents
+        run: corepack pnpm run test:pack
+
       - name: Check formatting
         run: corepack pnpm run format:check

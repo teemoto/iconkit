@@ -7,15 +7,19 @@
     "node": ">=24.11.1 <25"
   },
   "scripts": {
-    "start": "pnpm --filter @icon-kit/cli start",
+    "start": "node packages/cli/bin/iconkit.js",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit --project tsconfig.json",
+    "typecheck": "pnpm --filter @icon-kit/core build && pnpm -r --if-present run typecheck",
     "test": "vitest run --passWithNoTests",
+    "test:pack": "pnpm build && node scripts/package-smoke.js",
+    "benchmark": "pnpm --filter @icon-kit/core build && node scripts/benchmark-generation.js",
     "build": "pnpm -r --if-present run build",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "dev": "pnpm --filter @icon-kit/web dev"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@lucide/icons": "1.50.0",
     "@types/node": "^26.4.1",
     "eslint": "^10.9.1",
     "globals": "^17.11.0",

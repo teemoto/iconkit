@@ -1,6 +1,6 @@
 /** Public, platform-neutral types for IconKit's generation engine. */
 
-export type AssetFormat = 'ico' | 'json' | 'png' | 'svg';
+export type AssetFormat = 'ico' | 'json' | 'png' | 'svg' | 'txt';
 
 export interface Dimension {
   readonly width: number;
@@ -105,8 +105,19 @@ export { decodePng, initializePngDecoder, inspectPng } from './png.js';
 export type { DecodedRaster, PngMetadata, RasterDecoder } from './png.js';
 export { inspectSvg } from './svg.js';
 export type { SvgAsset, SvgMetadata } from './svg.js';
-export { normalizeCatalogIcon } from './catalog.js';
-export type { CatalogIcon, CatalogIconInput } from './catalog.js';
+export {
+  getCatalogIcon,
+  listCatalogIcons,
+  LUCIDE_CATALOG_VERSION,
+  LUCIDE_NOTICE,
+  normalizeCatalogIcon,
+  searchCatalogIcons,
+} from './catalog.js';
+export type {
+  CatalogIcon,
+  CatalogIconInput,
+  CatalogIconSummary,
+} from './catalog.js';
 export { computeContainFitLayout, toPixelRect } from './layout.js';
 export type { CanonicalLayout, NormalizedRect, PixelRect } from './layout.js';
 export { renderSvgBackground } from './background.js';
@@ -136,3 +147,22 @@ export type {
   GeneratedFileManifest,
   GeneratedFileManifestEntry,
 } from './generated-file-manifest.js';
+export { createZipBundle } from './zip-bundle.js';
+export type { ZipBundle } from './zip-bundle.js';
+export { validateConfig, PRESET_IDS } from './config.js';
+export {
+  generateBundle,
+  generatePreset,
+  renderAsset,
+  listPresets,
+  serializeConfig,
+  hashBytes,
+} from './generate.js';
+export type {
+  SourceAsset,
+  GenerateBundleRequest,
+  GeneratePresetRequest,
+  RenderAssetRequest,
+  RenderResult,
+  GeneratedBundle,
+} from './generate.js';

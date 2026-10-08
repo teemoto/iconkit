@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f6f2" />
+    <meta
+      name="description"
+      content="Turn your SVG or PNG into a complete favicon, PWA, and extension asset pack. Private, local, and reproducible."
+    />
+    <title>IconKit — One mark. Every surface.</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="site-header">
+        <a class="brand" href="./" aria-label="IconKit home"
+          ><span class="brand-symbol" aria-hidden="true">i<span>k</span></span>
+          IconKit<span class="alpha">ALPHA</span></a
+        ><span class="local-note"
+          ><span class="status-dot"></span> Made here. Stays here.</span
+        >
+      </header>
+      <main>
+        <section class="intro">
+          <div>
+            <p class="eyebrow">THE LITTLE DETAILS, TAKEN CARE OF</p>
+            <h1>One mark.<br /><span>Every surface.</span></h1>
+            <p class="intro-copy">
+              Your logo, ready for the places it belongs.<br />Make a complete
+              asset pack in a few clicks.
+            </p>
+          </div>
+          <div class="intro-aside">
+            <span class="mini-symbol" aria-hidden="true">↗</span>
+            <p>SVG or PNG in.<br />A tidy, reproducible kit out.</p>
+            <span class="privacy">No account. No uploads to a server.</span>
+          </div>
+        </section>
+        <div class="workspace">
+          <aside class="controls" aria-label="Asset controls">
+            <section class="control-section">
+              <div class="section-heading">
+                <h2><span>01</span> Your source</h2>
+                <button id="clear" class="text-button" type="button">
+                  Clear
+                </button>
+              </div>
+              <label class="upload-zone" id="dropzone" for="source"
+                ><span class="upload-icon" aria-hidden="true">↥</span
+                ><strong>Drop your logo here</strong
+                ><span>or choose an SVG or PNG · up to 5 MiB</span
+                ><input
+                  id="source"
+                  type="file"
+                  accept=".svg,.png,image/svg+xml,image/png"
+              /></label>
+              <p id="source-meta" class="source-meta"></p>
+              <div class="source-actions">
+                <button id="demo" class="text-button" type="button">
+                  Try the sample</button
+                ><label class="text-button config-label" for="import-config"
+                  >Load config<input
+                    id="import-config"
+                    type="file"
+                    accept=".json,application/json"
+                /></label>
+              </div>
+              <div class="source-divider"><span>or choose an icon</span></div>
+              <label class="field-label" for="catalog-search"
+                >Icon library</label
+              >
+              <input
+                id="catalog-search"
+                class="search-input"
+                type="search"
+                placeholder="Search 170 Lucide icons"
+                autocomplete="off"
+              />
+              <div
+                id="catalog-grid"
+                class="catalog-grid"
+                role="listbox"
+                aria-label="Lucide icons"
+              ></div>
+            </section>
+            <section class="control-section">
+              <div class="section-heading">
+                <h2><span>02</span> Make it yours</h2>
+                <button id="reset" class="text-button" type="button">
+                  Reset
+                </button>
+              </div>
+              <label class="field-label" for="background">Background</label
+              ><select id="background">
+                <option value="transparent">Transparent</option>
+                <option value="solid" selected>Solid color</option>
+                <option value="linear-gradient">Linear gradient</option>
+              </select>
+              <div class="color-row" id="color-fields">
+                <label
+                  ><input id="color-from" type="color" value="#e66b43" /><span
+                    id="color-label"
+                    >Background color</span
+                  ></label
+                ><label id="color-to-field" hidden
+                  ><input id="color-to" type="color" value="#f6c27a" /><span
+                    >End color</span
+                  ></label
+                >
+              </div>
+              <div id="angle-field" hidden>
+                <label class="field-label" for="angle"
+                  >Gradient angle <output id="angle-value">135°</output></label
+                ><input id="angle" type="range" min="0" max="359" value="135" />
+              </div>
+              <label class="field-label" for="padding"
+                >Breathing room <output id="padding-value">18%</output></label
+              ><input
+                id="padding"
+                type="range"
+                min="0"
+                max="40"
+                value="18"
+              /><label class="field-label" for="shape">Canvas shape</label
+              ><select id="shape">
+                <option value="square">Square</option>
+                <option value="rounded-square" selected>Rounded square</option>
+                <option value="circle">Circle</option>
+              </select>
+              <div id="radius-field">
+                <label class="field-label" for="radius"
+                  >Corner radius <output id="radius-value">22%</output></label
+                ><input id="radius" type="range" min="0" max="50" value="22" />
+              </div>
+              <div id="icon-color-field" hidden>
+                <label class="field-label" for="icon-color">Icon color</label>
+                <label class="color-control"
+                  ><input id="icon-color" type="color" value="#fff7e9" /><span
+                    >Catalog icons only</span
+                  ></label
+                >
+              </div>
+              <label class="guide-toggle"
+                ><input id="safe-guide" type="checkbox" /> Show maskable safe
+                area</label
+              >
+              <p class="field-hint" id="color-help">
+                Original artwork colors are preserved.
+              </p>
+            </section>
+            <section class="control-section">
+              <div class="section-heading">
+                <h2><span>03</span> Pack your kit</h2>
+                <span id="file-count" class="count-badge">—</span>
+              </div>
+              <div id="presets" class="preset-options"></div>
+              <button
+                id="download"
+                class="primary-button"
+                type="button"
+                disabled
+              >
+                Download asset kit <span aria-hidden="true">↓</span></button
+              ><button
+                id="download-config"
+                class="secondary-button"
+                type="button"
+                disabled
+              >
+                Save configuration
+              </button>
+              <p class="field-hint export-hint">
+                ZIP includes your original source, config, and file manifest.
+              </p>
+            </section>
+          </aside>
+          <section class="preview-area" aria-label="Live previews">
+            <div class="preview-heading">
+              <span class="eyebrow">YOUR MARK, IN CONTEXT</span
+              ><span class="live-label"
+                ><span class="status-dot"></span> Live preview</span
+              >
+            </div>
+            <div class="hero-preview checkerboard">
+              <img id="hero-image" alt="Generated logo preview" hidden />
+              <div id="safe-area-guide" class="safe-area-guide" hidden></div>
+              <div id="empty-preview">
+                <span aria-hidden="true">↥</span>
+                <p>Add a logo to start your kit.</p>
+              </div>
+              <span class="preview-caption"
+                >512 × 512 · ACTUAL GENERATED OUTPUT</span
+              >
+            </div>
+            <div class="surface-grid">
+              <article class="surface-card">
+                <h3>In the browser</h3>
+                <div class="browser-mock">
+                  <div class="browser-toolbar"><i></i><i></i><i></i></div>
+                  <div class="browser-tab">
+                    <img id="tab-image" alt="16-pixel favicon" hidden /><span
+                      >Your next great thing</span
+                    ><span aria-hidden="true">×</span>
+                  </div>
+                  <div class="browser-address">your-project.com</div>
+                </div>
+                <p>Small size. Same identity.</p>
+              </article>
+              <article class="surface-card">
+                <h3>On the home screen</h3>
+                <div class="home-mock">
+                  <div class="home-icon">
+                    <img
+                      id="home-image"
+                      alt="PWA home screen icon"
+                      hidden
+                    /><span>Your app</span>
+                  </div>
+                  <div class="ghost-app"></div>
+                  <div class="ghost-app second"></div>
+                </div>
+                <p>Ready to feel right at home.</p>
+              </article>
+              <article class="surface-card extension-card">
+                <h3>In the extension toolbar</h3>
+                <div class="extension-mock">
+                  <div class="extension-address">your-project.com</div>
+                  <div class="extension-button">
+                    <img
+                      id="extension-image"
+                      alt="Chrome extension toolbar icon"
+                      hidden
+                    />
+                  </div>
+                  <span class="extension-menu" aria-hidden="true">⋮</span>
+                </div>
+                <p>Crisp at toolbar size.</p>
+              </article>
+            </div>
+            <details class="output-details">
+              <summary>Inside your kit <span id="output-total"></span></summary>
+              <ul id="output-files"></ul>
+            </details>
+            <div
+              id="status"
+              role="status"
+              aria-live="polite"
+              class="status-message"
+            >
+              Preparing your workspace…
+            </div>
+            <ul id="diagnostics" class="diagnostics"></ul>
+          </section>
+        </div>
+        <footer>
+          <span>Less resizing. More building.</span
+          ><span>Local generation · Open source · No tracking</span>
+        </footer>
+      </main>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
