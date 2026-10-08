@@ -16,8 +16,8 @@ The first end-to-end alpha is implemented:
   stay in the browser and are not uploaded.
 
 SVG, PNG, and a curated offline catalog of 170 Lucide icons are supported. The
-alpha presets are `web-favicon`, `pwa`, and `chrome-extension`. Native
-iOS/Android packaging remains follow-up work.
+alpha presets are `web-favicon`, `pwa`, `ios-app-icon`, and
+`chrome-extension`. Android packaging remains follow-up work.
 
 ## Quick start
 
@@ -29,7 +29,7 @@ corepack enable
 corepack pnpm install
 ```
 
-Generate all three asset groups:
+Generate all four asset groups:
 
 ```sh
 corepack pnpm start -- generate --source fixtures/svg/simple.svg --out iconkit-output --zip

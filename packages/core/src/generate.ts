@@ -28,6 +28,8 @@ import {
   LUCIDE_CATALOG_VERSION,
   LUCIDE_NOTICE,
 } from './catalog.js';
+import { serializeIosAppIconContents } from './ios-app-icon-preset.js';
+import { removeOpaquePngAlpha } from './opaque-png.js';
 
 export interface SourceAsset {
   readonly format: SourceFormat;
@@ -204,10 +206,13 @@ async function prepare(
   };
 }
 
-function compose(source: Prepared, maskable = false): ValidationResult<string> {
+function compose(
+  source: Prepared,
+  mode?: 'ios' | 'maskable',
+): ValidationResult<string> {
   let canvas: Canvas = source.config.canvas;
   const diagnostics: Diagnostic[] = [];
-  if (maskable) {
+  if (mode === 'maskable') {
     const aspect = Math.max(
       source.width / source.height,
       source.height / source.width,
@@ -226,6 +231,29 @@ function compose(source: Prepared, maskable = false): ValidationResult<string> {
         details: { requestedPadding: canvas.padding, appliedPadding: padding },
       });
     canvas = { ...canvas, padding };
+  }
+  if (mode === 'ios') {
+    if (canvas.background.type === 'transparent') {
+      canvas = { ...canvas, background: { type: 'solid', color: '#FFFFFF' } };
+      diagnostics.push({
+        severity: 'warning',
+        code: 'IOS_OPAQUE_BACKGROUND_APPLIED',
+        message:
+          'iOS app icons cannot contain transparency, so a white background was applied.',
+        suggestion:
+          'Choose a solid or gradient background to control the iOS result.',
+      });
+    }
+    if (canvas.shape.type !== 'square') {
+      canvas = { ...canvas, shape: { type: 'square' } };
+      diagnostics.push({
+        severity: 'warning',
+        code: 'IOS_SQUARE_CANVAS_APPLIED',
+        message:
+          'iOS app icon artwork must fill a square canvas without a precomposed mask.',
+        suggestion: 'iOS applies the final corner mask on the device.',
+      });
+    }
   }
   if (source.svg) {
     const result = composeSvg(source.svg, canvas);
@@ -268,7 +296,10 @@ export async function renderAsset(
   const prepared = await prepare(request);
   if (!prepared.value)
     return { valid: false, diagnostics: prepared.diagnostics };
-  const composed = compose(prepared.value, request.maskable);
+  const composed = compose(
+    prepared.value,
+    request.maskable ? 'maskable' : undefined,
+  );
   if (!composed.value)
     return { valid: false, diagnostics: composed.diagnostics };
   const format = request.format ?? 'png';
@@ -318,19 +349,26 @@ async function generatePrepared(
   const cache = new Map<string, Uint8Array>();
   for (const output of preset.outputs) {
     const maskable = output.options?.purpose === 'maskable';
-    const composition = compose(source, maskable);
+    const mode =
+      presetId === 'ios-app-icon' ? 'ios' : maskable ? 'maskable' : undefined;
+    const composition = compose(source, mode);
     if (!composition.value)
       return { valid: false, diagnostics: composition.diagnostics };
     diagnostics.push(...composition.diagnostics);
     const images: { bytes: Uint8Array }[] = [];
     for (const dimension of output.dimensions) {
-      const key = `${maskable}:${dimension.width}`;
+      const key = `${mode ?? 'standard'}:${dimension.width}`;
       let bytes = cache.get(key);
       if (!bytes) {
         const rendered = renderSvgToPng(composition.value, dimension.width);
         if (!rendered.value)
           return { valid: false, diagnostics: rendered.diagnostics };
-        bytes = rendered.value.bytes;
+        if (presetId === 'ios-app-icon') {
+          const opaque = removeOpaquePngAlpha(rendered.value.bytes);
+          if (!opaque.value)
+            return { valid: false, diagnostics: opaque.diagnostics };
+          bytes = opaque.value;
+        } else bytes = rendered.value.bytes;
         cache.set(key, bytes);
       }
       images.push({ bytes });
@@ -347,6 +385,18 @@ async function generatePrepared(
       dimensions: output.dimensions,
       bytes: encoded.value,
       sha256: await hashBytes(encoded.value),
+      presetId,
+      presetVersion: preset.version,
+    });
+  }
+  if (presetId === 'ios-app-icon') {
+    const bytes = serializeIosAppIconContents(preset.outputs);
+    files.push({
+      path: 'ios/AppIcon.appiconset/Contents.json',
+      format: 'json',
+      dimensions: [],
+      bytes,
+      sha256: await hashBytes(bytes),
       presetId,
       presetVersion: preset.version,
     });

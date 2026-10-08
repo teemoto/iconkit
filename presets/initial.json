@@ -81,6 +81,92 @@
       ]
     },
     {
+      "id": "ios-app-icon",
+      "version": 1,
+      "title": "iOS app icon",
+      "description": "Complete Xcode AppIcon asset catalog for iPhone, iPad, and App Store delivery.",
+      "outputs": [
+        {
+          "outputDirectory": "ios/AppIcon.appiconset",
+          "filename": "AppIcon-20.png",
+          "format": "png",
+          "dimensions": [{ "width": 20, "height": 20 }]
+        },
+        {
+          "outputDirectory": "ios/AppIcon.appiconset",
+          "filename": "AppIcon-29.png",
+          "format": "png",
+          "dimensions": [{ "width": 29, "height": 29 }]
+        },
+        {
+          "outputDirectory": "ios/AppIcon.appiconset",
+          "filename": "AppIcon-40.png",
+          "format": "png",
+          "dimensions": [{ "width": 40, "height": 40 }]
+        },
+        {
+          "outputDirectory": "ios/AppIcon.appiconset",
+          "filename": "AppIcon-58.png",
+          "format": "png",
+          "dimensions": [{ "width": 58, "height": 58 }]
+        },
+        {
+          "outputDirectory": "ios/AppIcon.appiconset",
+          "filename": "AppIcon-60.png",
+          "format": "png",
+          "dimensions": [{ "width": 60, "height": 60 }]
+        },
+        {
+          "outputDirectory": "ios/AppIcon.appiconset",
+          "filename": "AppIcon-76.png",
+          "format": "png",
+          "dimensions": [{ "width": 76, "height": 76 }]
+        },
+        {
+          "outputDirectory": "ios/AppIcon.appiconset",
+          "filename": "AppIcon-80.png",
+          "format": "png",
+          "dimensions": [{ "width": 80, "height": 80 }]
+        },
+        {
+          "outputDirectory": "ios/AppIcon.appiconset",
+          "filename": "AppIcon-87.png",
+          "format": "png",
+          "dimensions": [{ "width": 87, "height": 87 }]
+        },
+        {
+          "outputDirectory": "ios/AppIcon.appiconset",
+          "filename": "AppIcon-120.png",
+          "format": "png",
+          "dimensions": [{ "width": 120, "height": 120 }]
+        },
+        {
+          "outputDirectory": "ios/AppIcon.appiconset",
+          "filename": "AppIcon-152.png",
+          "format": "png",
+          "dimensions": [{ "width": 152, "height": 152 }]
+        },
+        {
+          "outputDirectory": "ios/AppIcon.appiconset",
+          "filename": "AppIcon-167.png",
+          "format": "png",
+          "dimensions": [{ "width": 167, "height": 167 }]
+        },
+        {
+          "outputDirectory": "ios/AppIcon.appiconset",
+          "filename": "AppIcon-180.png",
+          "format": "png",
+          "dimensions": [{ "width": 180, "height": 180 }]
+        },
+        {
+          "outputDirectory": "ios/AppIcon.appiconset",
+          "filename": "AppIcon-1024.png",
+          "format": "png",
+          "dimensions": [{ "width": 1024, "height": 1024 }]
+        }
+      ]
+    },
+    {
       "id": "chrome-extension",
       "version": 1,
       "title": "Chrome extension",

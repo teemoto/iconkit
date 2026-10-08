@@ -66,6 +66,7 @@ const ready = Promise.all([
 const presetSizes: Record<PresetId, string> = {
   'web-favicon': '5 files',
   pwa: '4 files',
+  'ios-app-icon': '14 files',
   'chrome-extension': '4 files',
 };
 for (const preset of listPresets()) {
@@ -351,11 +352,15 @@ async function update(): Promise<void> {
     revokeUrls();
     heroImage.src = makeUrl(heroResult.value.bytes, 'image/png');
     tabImage.src = makeUrl(tabResult.value.bytes, 'image/png');
-    const pwa =
+    const home =
+      bundleResult.value.files.find(
+        (item) => item.path === 'ios/AppIcon.appiconset/AppIcon-180.png',
+      ) ??
       bundleResult.value.files.find(
         (item) => item.path === 'pwa/icons/icon-192.png',
-      ) ?? heroResult.value;
-    homeImage.src = makeUrl(pwa.bytes, 'image/png');
+      ) ??
+      heroResult.value;
+    homeImage.src = makeUrl(home.bytes, 'image/png');
     const extension =
       bundleResult.value.files.find(
         (item) => item.path === 'chrome-extension/icons/icon-16.png',

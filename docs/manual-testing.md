@@ -20,6 +20,10 @@
 9. Try an oversized file, malformed SVG, corrupt PNG, mismatched saved source,
    and no selected preset. Confirm each failure is explained without losing the
    current controls.
+10. Select the iOS preset with a rounded shape and transparent background.
+    Confirm the generated home-screen preview is square and opaque, both iOS
+    adjustments are explained, and `ios/AppIcon.appiconset/Contents.json`
+    references every generated PNG.
 
 ## CLI
 

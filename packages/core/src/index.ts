@@ -35,7 +35,8 @@ export interface ValidationResult<T> {
 }
 
 export type SourceFormat = 'png' | 'svg';
-export type PresetId = 'chrome-extension' | 'pwa' | 'web-favicon';
+export type PresetId =
+  'chrome-extension' | 'ios-app-icon' | 'pwa' | 'web-favicon';
 export type VectorOutput = 'never' | 'when-vector-safe';
 
 export interface FileSource {
@@ -128,6 +129,7 @@ export { composeSvg } from './compose-svg.js';
 export type { SvgComposition } from './compose-svg.js';
 export { initializeSvgRasterizer, renderSvgToPng } from './png-renderer.js';
 export type { RenderedPng } from './png-renderer.js';
+export { removeOpaquePngAlpha } from './opaque-png.js';
 export { encodeIco } from './ico.js';
 export type { IcoImage } from './ico.js';
 export { assessVectorOutput } from './vector-output.js';
@@ -137,6 +139,10 @@ export { generatePwaPreset } from './pwa-preset.js';
 export type { PwaPresetOptions } from './pwa-preset.js';
 export { generateChromeExtensionPreset } from './chrome-extension-preset.js';
 export type { ChromeExtensionPreset } from './chrome-extension-preset.js';
+export {
+  IOS_APP_ICON_SLOTS,
+  serializeIosAppIconContents,
+} from './ios-app-icon-preset.js';
 export { planOutputWrite } from './output-plan.js';
 export type { OutputWriteOptions, OutputWritePlan } from './output-plan.js';
 export {

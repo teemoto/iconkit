@@ -1,6 +1,11 @@
 import type { Diagnostic, IconKitConfig, ValidationResult } from './index.js';
 
-export const PRESET_IDS = ['web-favicon', 'pwa', 'chrome-extension'] as const;
+export const PRESET_IDS = [
+  'web-favicon',
+  'pwa',
+  'ios-app-icon',
+  'chrome-extension',
+] as const;
 
 function hasControlCharacter(value: string): boolean {
   return Array.from(value).some((character) => character.charCodeAt(0) < 32);

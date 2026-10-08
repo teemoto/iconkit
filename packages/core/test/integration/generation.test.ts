@@ -21,7 +21,7 @@ const base: IconKitConfig = {
     background: { type: 'transparent' },
     shape: { type: 'square' },
   },
-  targets: ['web-favicon', 'pwa', 'chrome-extension'],
+  targets: ['web-favicon', 'pwa', 'ios-app-icon', 'chrome-extension'],
 };
 const svg = new TextEncoder().encode(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 10" fill="#ff0000"><rect width="20" height="10"/></svg>',
@@ -91,7 +91,7 @@ describe('complete bundle generation', () => {
       });
       expect(result.valid, JSON.stringify(result.diagnostics)).toBe(true);
       const bundle = result.value!;
-      expect(bundle.files.filter((file) => file.presetId)).toHaveLength(13);
+      expect(bundle.files.filter((file) => file.presetId)).toHaveLength(27);
       for (const file of bundle.files.filter(
         (file) => file.format === 'png' && file.presetId,
       )) {

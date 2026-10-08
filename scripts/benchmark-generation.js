@@ -15,7 +15,7 @@ const config = {
     background: { type: 'transparent' },
     shape: { type: 'square' },
   },
-  targets: ['web-favicon', 'pwa', 'chrome-extension'],
+  targets: ['web-favicon', 'pwa', 'ios-app-icon', 'chrome-extension'],
 };
 
 await generateBundle({

@@ -24,7 +24,7 @@ Usage:
 Options:
   --source <path>   Source file; with --config, overrides source location only
   --config <path>   Version-1 design config (source relative to config directory)
-  --preset <list>   Comma-separated preset IDs (default: all three)
+  --preset <list>   Comma-separated preset IDs (default: all available)
   --out <path>      Output directory (generate) or config filename (init)
   --zip            Also write iconkit.zip
   --overwrite      Explicitly replace generated files (generate only)

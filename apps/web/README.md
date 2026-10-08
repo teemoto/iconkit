@@ -1,7 +1,7 @@
 # @icon-kit/web
 
 IconKit's local browser composer. It accepts SVG or PNG input, previews the
-actual generated 512 px, favicon, and PWA outputs, and downloads a reproducible
+actual generated 512 px, favicon, PWA, and iOS outputs, and downloads a reproducible
 asset ZIP or saved configuration.
 
 Users can also search 170 bundled Lucide icons, recolor them, preview the PWA

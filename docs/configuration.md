@@ -17,7 +17,7 @@ overwrite policy are CLI concerns and are deliberately excluded.
     "background": { "type": "transparent" },
     "shape": { "type": "square" }
   },
-  "targets": ["web-favicon", "pwa", "chrome-extension"],
+  "targets": ["web-favicon", "pwa", "ios-app-icon", "chrome-extension"],
   "vectorOutput": "when-vector-safe"
 }
 ```

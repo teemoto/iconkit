@@ -1,7 +1,8 @@
 # @icon-kit/cli
 
-Generate reproducible favicon, PWA, and Chrome extension assets from an SVG or
-PNG source. The CLI performs all generation locally through `@icon-kit/core`.
+Generate reproducible favicon, PWA, iOS app-icon, and Chrome extension assets
+from an SVG or PNG source. The CLI performs all generation locally through
+`@icon-kit/core`.
 
 ## Generate
 

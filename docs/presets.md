@@ -1,6 +1,6 @@
 # Presets and generated output
 
-IconKit alpha provides three version-1 presets. Paths are relative to the
+IconKit alpha provides four version-1 presets. Paths are relative to the
 selected output directory or ZIP root.
 
 ## Website favicon (`web-favicon`)
@@ -28,6 +28,18 @@ when it increases the requested padding to protect the artwork.
 - `chrome-extension/icons/icon-48.png`
 - `chrome-extension/icons/icon-128.png`
 
+## iOS app icon (`ios-app-icon`)
+
+The preset creates `ios/AppIcon.appiconset` with 13 unique PNG files covering
+the required iPhone, iPad, and 1024 px App Store slots. Its `Contents.json`
+maps those files into an Xcode asset catalog. Drag the generated app-icon set
+into `Assets.xcassets`, or replace an existing `AppIcon.appiconset`.
+
+iOS applies its own corner mask and does not accept transparent app icons.
+IconKit therefore renders this preset on a square canvas. It substitutes a
+white background when the shared config requests transparency and reports both
+adjustments as generation warnings.
+
 ## Bundle metadata
 
 Every bundle includes:
@@ -44,5 +56,4 @@ The manifest records paths, formats, dimensions, SHA-256 digests, and preset
 versions. It excludes timestamps and host paths. ZIP entry ordering,
 compression settings, and timestamps are fixed.
 
-Native iOS and Android asset catalogs remain deferred until IconKit implements
-their complete platform packaging contracts.
+Android adaptive icon packaging remains deferred.

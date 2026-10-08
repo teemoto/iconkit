@@ -4,18 +4,24 @@
 
 - Product: IconKit
 - Decision type: MVP preset contract
-- Status: Approved and implemented
+- Status: Approved, implemented, and extended
 - Date: September 3, 2026
+- Last updated: October 8, 2026
 
 ## Recommendation
 
-The first core, CLI, and web alpha uses three independent generation presets:
+The first core, CLI, and web alpha launched with three independent generation
+presets:
 
 1. `web-favicon`
 2. `pwa`
 3. `chrome-extension`
 
-Treat native iOS and Android launcher assets as explicit follow-on presets. They remain part of the broader public MVP promise, but should not block the deterministic core/CLI alpha because both require platform-specific packaging rules beyond a simple resized bitmap.
+iOS support was added on October 8, 2026 after its complete Xcode asset-catalog
+contract and opacity rules were implemented. The current alpha therefore has a
+fourth preset, `ios-app-icon`. Android launcher assets remain the next
+follow-on preset because they require adaptive foreground/background layers
+and resource XML beyond a simple resized bitmap.
 
 This recommendation preserves the main developer value proposition—an existing logo to correctly structured web, PWA, and Chrome extension assets—while avoiding a misleading native-app export that omits the resources and metadata those platforms actually require.
 
@@ -23,21 +29,22 @@ This recommendation preserves the main developer value proposition—an existing
 
 All paths below are relative to the requested output directory. Presets write to separate folders so combining presets in one bundle cannot overwrite files.
 
-| Preset ID          | Files                                 | Format                           | Notes                                                                                          |
-| ------------------ | ------------------------------------- | -------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `web-favicon`      | `web/favicon/favicon.ico`             | ICO with 16, 32, and 48px images | Broad browser compatibility and a conventional root-ready favicon artifact.                    |
-|                    | `web/favicon/favicon-16x16.png`       | PNG, 16×16                       | Explicit tiny raster for HTML links and preview.                                               |
-|                    | `web/favicon/favicon-32x32.png`       | PNG, 32×32                       | Common tab and high-density use.                                                               |
-|                    | `web/favicon/favicon-48x48.png`       | PNG, 48×48                       | Included in the ICO source set and available independently.                                    |
-|                    | `web/favicon/apple-touch-icon.png`    | PNG, 180×180                     | Website web-clip convenience output; it is not a native iOS app-asset catalog.                 |
-| `pwa`              | `pwa/icons/icon-192.png`              | PNG, 192×192                     | Chromium installability baseline.                                                              |
-|                    | `pwa/icons/icon-512.png`              | PNG, 512×512                     | Chromium installability baseline and high-resolution use.                                      |
-|                    | `pwa/icons/icon-maskable-192.png`     | PNG, 192×192                     | Generated only when `maskable: true`; important content must remain in the maskable safe zone. |
-|                    | `pwa/icons/icon-maskable-512.png`     | PNG, 512×512                     | Generated only when `maskable: true`; same composition rules as the 192px variant.             |
-| `chrome-extension` | `chrome-extension/icons/icon-16.png`  | PNG, 16×16                       | Extension page/favicon and toolbar density support.                                            |
-|                    | `chrome-extension/icons/icon-32.png`  | PNG, 32×32                       | Windows and high-density toolbar support.                                                      |
-|                    | `chrome-extension/icons/icon-48.png`  | PNG, 48×48                       | Chrome extension management page.                                                              |
-|                    | `chrome-extension/icons/icon-128.png` | PNG, 128×128                     | Installation and Chrome Web Store requirement.                                                 |
+| Preset ID          | Files                                 | Format                           | Notes                                                                                            |
+| ------------------ | ------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `web-favicon`      | `web/favicon/favicon.ico`             | ICO with 16, 32, and 48px images | Broad browser compatibility and a conventional root-ready favicon artifact.                      |
+|                    | `web/favicon/favicon-16x16.png`       | PNG, 16×16                       | Explicit tiny raster for HTML links and preview.                                                 |
+|                    | `web/favicon/favicon-32x32.png`       | PNG, 32×32                       | Common tab and high-density use.                                                                 |
+|                    | `web/favicon/favicon-48x48.png`       | PNG, 48×48                       | Included in the ICO source set and available independently.                                      |
+|                    | `web/favicon/apple-touch-icon.png`    | PNG, 180×180                     | Website web-clip convenience output; it is not a native iOS app-asset catalog.                   |
+| `pwa`              | `pwa/icons/icon-192.png`              | PNG, 192×192                     | Chromium installability baseline.                                                                |
+|                    | `pwa/icons/icon-512.png`              | PNG, 512×512                     | Chromium installability baseline and high-resolution use.                                        |
+|                    | `pwa/icons/icon-maskable-192.png`     | PNG, 192×192                     | Generated only when `maskable: true`; important content must remain in the maskable safe zone.   |
+|                    | `pwa/icons/icon-maskable-512.png`     | PNG, 512×512                     | Generated only when `maskable: true`; same composition rules as the 192px variant.               |
+| `ios-app-icon`     | `ios/AppIcon.appiconset/*`            | 13 RGB PNGs and `Contents.json`  | Complete iPhone, iPad, and App Store asset catalog; square, opaque output with no alpha channel. |
+| `chrome-extension` | `chrome-extension/icons/icon-16.png`  | PNG, 16×16                       | Extension page/favicon and toolbar density support.                                              |
+|                    | `chrome-extension/icons/icon-32.png`  | PNG, 32×32                       | Windows and high-density toolbar support.                                                        |
+|                    | `chrome-extension/icons/icon-48.png`  | PNG, 48×48                       | Chrome extension management page.                                                                |
+|                    | `chrome-extension/icons/icon-128.png` | PNG, 128×128                     | Installation and Chrome Web Store requirement.                                                   |
 
 The asset bundle should also contain:
 
@@ -55,9 +62,13 @@ The first release does **not** emit a web manifest, HTML snippet, or Chrome `man
 
 ## Explicit Deferrals
 
-### Native iOS app assets
+### Native iOS app assets (completed October 8, 2026)
 
-Defer a native `ios-app` preset until IconKit can generate a complete asset-catalog structure and verify it against current Xcode requirements. The `apple-touch-icon.png` above is intentionally a website convenience asset, not a substitute for an iOS app icon set.
+The `ios-app-icon` preset now generates a complete `AppIcon.appiconset`,
+including `Contents.json`, all required iPhone/iPad sizes, and the 1024px App
+Store icon. It removes the PNG alpha channel and ignores precomposed canvas
+masks because iOS applies the final mask. The `apple-touch-icon.png` remains a
+website convenience asset rather than a substitute for this catalog.
 
 ### Native Android app assets
 
@@ -75,9 +86,9 @@ Defer a native `android-app` preset until the composition model supports Android
 
 This decision is approved when the project owner confirms:
 
-1. The three preset IDs and exact paths above are the M0/M1 contract.
+1. The original three preset IDs and exact paths above are the M0/M1 contract; `ios-app-icon` extends that contract without changing them.
 2. `apple-touch-icon.png` is included with `web-favicon`.
 3. PWA maskable variants are enabled by default and rendered with safe-area treatment.
-4. Native iOS and Android presets are deferred until their packaging contracts are designed and verified.
+4. Android remains deferred until its adaptive-icon packaging contract is designed and verified.
 
 On approval, this document becomes the source for `PresetDefinition` fixtures, CLI help, bundle tests, and generated-file manifests.

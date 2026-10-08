@@ -24,7 +24,7 @@
       "type": "array",
       "description": "Requested asset preset IDs.",
       "items": {
-        "enum": ["web-favicon", "pwa", "chrome-extension"]
+        "enum": ["web-favicon", "pwa", "ios-app-icon", "chrome-extension"]
       },
       "minItems": 1,
       "uniqueItems": true
