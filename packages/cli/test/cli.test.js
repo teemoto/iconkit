@@ -22,7 +22,7 @@ describe('CLI', () => {
     expect(run('--help').stdout).toContain('iconkit generate');
     expect(run('unknown', '--json').status).toBe(2);
     expect(JSON.parse(run('generate', '--json').stdout).valid).toBe(false);
-    expect(JSON.parse(run('presets', '--json').stdout)).toHaveLength(4);
+    expect(JSON.parse(run('presets', '--json').stdout)).toHaveLength(5);
   });
   it('generates a movable bundle and reproduces its archive', () => {
     const out = join(temp(), 'assets');

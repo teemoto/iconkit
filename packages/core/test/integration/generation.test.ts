@@ -21,7 +21,13 @@ const base: IconKitConfig = {
     background: { type: 'transparent' },
     shape: { type: 'square' },
   },
-  targets: ['web-favicon', 'pwa', 'ios-app-icon', 'chrome-extension'],
+  targets: [
+    'web-favicon',
+    'pwa',
+    'ios-app-icon',
+    'android-app-icon',
+    'chrome-extension',
+  ],
 };
 const svg = new TextEncoder().encode(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 10" fill="#ff0000"><rect width="20" height="10"/></svg>',
@@ -91,7 +97,7 @@ describe('complete bundle generation', () => {
       });
       expect(result.valid, JSON.stringify(result.diagnostics)).toBe(true);
       const bundle = result.value!;
-      expect(bundle.files.filter((file) => file.presetId)).toHaveLength(27);
+      expect(bundle.files.filter((file) => file.presetId)).toHaveLength(55);
       for (const file of bundle.files.filter(
         (file) => file.format === 'png' && file.presetId,
       )) {
@@ -154,6 +160,32 @@ describe('complete bundle generation', () => {
       ),
     ).toEqual([255, 0, 0, 255]);
     expect(image.pixels[3]).toBe(0);
+  });
+  it('normalizes valid PNG encodings before raster composition', async () => {
+    const bytes = Buffer.from(
+      readFileSync(
+        new URL(
+          '../../../../fixtures/png/opaque-1x1.png.base64',
+          import.meta.url,
+        ),
+        'utf8',
+      ).trim(),
+      'base64',
+    );
+    const config: IconKitConfig = {
+      ...base,
+      source: { kind: 'file', path: 'logo.png', format: 'png' },
+      canvas: { ...base.canvas, padding: 0 },
+    };
+    const result = await renderAsset({
+      config,
+      source: { format: 'png', bytes },
+      width: 32,
+      height: 32,
+    });
+    const image = (await decodePng(result.value!.bytes)).value!;
+    expect(Array.from(image.pixels.slice(0, 4))).toEqual([255, 0, 0, 255]);
+    expect(Array.from(image.pixels.slice(-4))).toEqual([255, 0, 0, 255]);
   });
   it('rejects malicious sources and changed source hashes', async () => {
     const malicious = new TextEncoder().encode(

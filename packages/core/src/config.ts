@@ -4,6 +4,7 @@ export const PRESET_IDS = [
   'web-favicon',
   'pwa',
   'ios-app-icon',
+  'android-app-icon',
   'chrome-extension',
 ] as const;
 

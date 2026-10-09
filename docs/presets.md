@@ -1,6 +1,6 @@
 # Presets and generated output
 
-IconKit alpha provides four version-1 presets. Paths are relative to the
+IconKit alpha provides five version-1 presets. Paths are relative to the
 selected output directory or ZIP root.
 
 ## Website favicon (`web-favicon`)
@@ -40,6 +40,20 @@ IconKit therefore renders this preset on a square canvas. It substitutes a
 white background when the shared config requests transparency and reports both
 adjustments as generation warnings.
 
+## Android app icon (`android-app-icon`)
+
+The preset creates a drop-in `android/app/src/main/res` tree with adaptive
+foreground, background, and monochrome layers at all five Android density
+buckets. It also includes legacy and round launcher PNGs, two adaptive-icon XML
+resources, and `android/play-store-icon.png` for the Google Play listing. The
+complete preset contains 28 files.
+
+Adaptive artwork is kept inside Android's guaranteed 66/108 safe area. IconKit
+increases insufficient padding and reports the adjustment. Adaptive background
+and Play outputs receive a white background when the shared config requests
+transparency. Android supplies final launcher masks, so the shared canvas shape
+does not pre-mask adaptive or Play output.
+
 ## Bundle metadata
 
 Every bundle includes:
@@ -56,7 +70,5 @@ The manifest records paths, formats, dimensions, SHA-256 digests, and preset
 versions. It excludes timestamps and host paths. ZIP entry ordering,
 compression settings, and timestamps are fixed.
 
-The proposed Android output contract is documented in
+The implemented Android output contract is documented in
 [`outputs/iconkit-android-asset-contract.md`](../outputs/iconkit-android-asset-contract.md).
-Implementation of its adaptive, themed, legacy, and Google Play resources is
-the next preset task.

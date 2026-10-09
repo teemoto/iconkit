@@ -29,7 +29,18 @@ import {
   LUCIDE_NOTICE,
 } from './catalog.js';
 import { serializeIosAppIconContents } from './ios-app-icon-preset.js';
-import { removeOpaquePngAlpha } from './opaque-png.js';
+import {
+  addPngSrgbChunk,
+  createMonochromePng,
+  encodeRgbaPng,
+  removeOpaquePngAlpha,
+} from './opaque-png.js';
+import {
+  ANDROID_APP_ICON_PRESET,
+  ANDROID_PLAY_ICON_MAX_BYTES,
+  ANDROID_SAFE_PADDING,
+  serializeAndroidAdaptiveIconXml,
+} from './android-app-icon-preset.js';
 
 export interface SourceAsset {
   readonly format: SourceFormat;
@@ -64,7 +75,10 @@ export interface GeneratedBundle {
 }
 
 export function listPresets(): readonly PresetDefinition[] {
-  return structuredClone(registry.presets) as PresetDefinition[];
+  return structuredClone([
+    ...registry.presets,
+    ANDROID_APP_ICON_PRESET,
+  ]) as PresetDefinition[];
 }
 function failure(
   code: string,
@@ -190,9 +204,16 @@ async function prepare(
   const raster = await decodePng(source.bytes);
   if (!raster.valid || !raster.value)
     return { valid: false, diagnostics: raster.diagnostics };
+  const normalized = encodeRgbaPng(
+    raster.value.width,
+    raster.value.height,
+    raster.value.pixels,
+  );
+  if (!normalized.value)
+    return { valid: false, diagnostics: normalized.diagnostics };
   let binary = '';
-  for (let i = 0; i < source.bytes.length; i += 8192)
-    binary += String.fromCharCode(...source.bytes.subarray(i, i + 8192));
+  for (let i = 0; i < normalized.value.length; i += 8192)
+    binary += String.fromCharCode(...normalized.value.subarray(i, i + 8192));
   return {
     valid: true,
     value: {
@@ -208,7 +229,13 @@ async function prepare(
 
 function compose(
   source: Prepared,
-  mode?: 'ios' | 'maskable',
+  mode?:
+    | 'android-foreground'
+    | 'android-legacy'
+    | 'android-play'
+    | 'android-round'
+    | 'ios'
+    | 'maskable',
 ): ValidationResult<string> {
   let canvas: Canvas = source.config.canvas;
   const diagnostics: Diagnostic[] = [];
@@ -255,6 +282,49 @@ function compose(
       });
     }
   }
+  if (mode?.startsWith('android-')) {
+    const padding = Math.max(canvas.padding, ANDROID_SAFE_PADDING);
+    if (padding > canvas.padding)
+      diagnostics.push({
+        severity: 'warning',
+        code: 'ANDROID_ADAPTIVE_SAFE_AREA_ADJUSTED',
+        message:
+          'Android artwork uses extra padding to remain inside the guaranteed adaptive-icon safe area.',
+        suggestion: 'Review the Android launcher-mask previews.',
+        details: { requestedPadding: canvas.padding, appliedPadding: padding },
+      });
+    canvas = { ...canvas, padding };
+    if (mode === 'android-foreground')
+      canvas = {
+        ...canvas,
+        background: { type: 'transparent' },
+        shape: { type: 'square' },
+      };
+    if (mode === 'android-round')
+      canvas = { ...canvas, shape: { type: 'circle' } };
+    if (mode === 'android-play') {
+      if (canvas.background.type === 'transparent') {
+        canvas = { ...canvas, background: { type: 'solid', color: '#FFFFFF' } };
+        diagnostics.push({
+          severity: 'warning',
+          code: 'ANDROID_OPAQUE_BACKGROUND_APPLIED',
+          message:
+            'Android adaptive and Play icons need a full background, so white was applied.',
+          suggestion:
+            'Choose a solid or gradient background to control the Android result.',
+        });
+      }
+      if (canvas.shape.type !== 'square')
+        diagnostics.push({
+          severity: 'info',
+          code: 'ANDROID_SHAPE_IGNORED',
+          message:
+            'Android applies launcher masks, so the shared canvas shape is ignored for adaptive and Play icons.',
+          suggestion: 'Review the Android output under several launcher masks.',
+        });
+      canvas = { ...canvas, shape: { type: 'square' } };
+    }
+  }
   if (source.svg) {
     const result = composeSvg(source.svg, canvas);
     return result.value
@@ -277,6 +347,157 @@ function compose(
   // Only internally generated data URLs enter this markup. Uploaded SVGs never get this exception.
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1 1"><defs>${background.value.defs}${clip.value.defs}</defs>${clip.value.contentOpen}${background.value.content}<image x="${x}" y="${y}" width="${width}" height="${height}" xlink:href="${source.dataUrl}"/>${clip.value.contentClose}</svg>`;
   return { valid: true, value: svg, diagnostics };
+}
+
+function composeAndroidBackground(source: Prepared): ValidationResult<string> {
+  const diagnostics: Diagnostic[] = [];
+  let background = source.config.canvas.background;
+  if (background.type === 'transparent') {
+    background = { type: 'solid', color: '#FFFFFF' };
+    diagnostics.push({
+      severity: 'warning',
+      code: 'ANDROID_OPAQUE_BACKGROUND_APPLIED',
+      message:
+        'Android adaptive and Play icons need a full background, so white was applied.',
+      suggestion:
+        'Choose a solid or gradient background to control the Android result.',
+    });
+  }
+  const rendered = renderSvgBackground(background);
+  if (!rendered.value)
+    return { valid: false, diagnostics: rendered.diagnostics };
+  return {
+    valid: true,
+    value: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"><defs>${rendered.value.defs}</defs>${rendered.value.content}</svg>`,
+    diagnostics,
+  };
+}
+
+function uniqueDiagnostics(items: readonly Diagnostic[]): Diagnostic[] {
+  return items.filter(
+    (item, index) =>
+      items.findIndex((other) => other.code === item.code) === index,
+  );
+}
+
+async function generatedFile(
+  path: string,
+  format: GeneratedFile['format'],
+  dimensions: GeneratedFile['dimensions'],
+  bytes: Uint8Array,
+  preset: PresetDefinition,
+): Promise<GeneratedFile> {
+  return {
+    path,
+    format,
+    dimensions,
+    bytes,
+    sha256: await hashBytes(bytes),
+    presetId: preset.id,
+    presetVersion: preset.version,
+  };
+}
+
+async function generateAndroidPreset(
+  source: Prepared,
+  preset: PresetDefinition,
+): Promise<ValidationResult<readonly GeneratedFile[]>> {
+  const diagnostics: Diagnostic[] = [];
+  const files: GeneratedFile[] = [];
+  const foregroundBySize = new Map<number, Uint8Array>();
+  const compositions = new Map<string, string>();
+  const composition = (role: string): ValidationResult<string> => {
+    const cached = compositions.get(role);
+    if (cached) return { valid: true, value: cached, diagnostics: [] };
+    const result =
+      role === 'background'
+        ? composeAndroidBackground(source)
+        : compose(
+            source,
+            `android-${role}` as
+              | 'android-foreground'
+              | 'android-legacy'
+              | 'android-play'
+              | 'android-round',
+          );
+    if (result.value) compositions.set(role, result.value);
+    diagnostics.push(...result.diagnostics);
+    return result;
+  };
+  for (const output of preset.outputs) {
+    const role = String(output.options?.androidRole);
+    const size = output.dimensions[0]!.width;
+    let bytes: Uint8Array;
+    if (role === 'monochrome') {
+      let foreground = foregroundBySize.get(size);
+      if (!foreground) {
+        const svg = composition('foreground');
+        if (!svg.value) return { valid: false, diagnostics: svg.diagnostics };
+        const rendered = renderSvgToPng(svg.value, size);
+        if (!rendered.value)
+          return { valid: false, diagnostics: rendered.diagnostics };
+        foreground = rendered.value.bytes;
+        foregroundBySize.set(size, foreground);
+      }
+      const monochrome = createMonochromePng(foreground);
+      if (!monochrome.value)
+        return { valid: false, diagnostics: monochrome.diagnostics };
+      bytes = monochrome.value.bytes;
+      if (monochrome.value.solidRectangle)
+        diagnostics.push({
+          severity: 'warning',
+          code: 'ANDROID_MONOCHROME_REVIEW_REQUIRED',
+          message:
+            'The source alpha mask forms a solid rectangle and may produce a solid themed icon.',
+          suggestion:
+            'Review the themed preview or use artwork with a transparent silhouette.',
+        });
+    } else {
+      const svg = composition(role);
+      if (!svg.value) return { valid: false, diagnostics: svg.diagnostics };
+      const rendered = renderSvgToPng(svg.value, size);
+      if (!rendered.value)
+        return { valid: false, diagnostics: rendered.diagnostics };
+      bytes = rendered.value.bytes;
+      if (role === 'foreground') foregroundBySize.set(size, bytes);
+      if (role === 'play') {
+        const srgb = addPngSrgbChunk(bytes);
+        if (!srgb.value) return { valid: false, diagnostics: srgb.diagnostics };
+        bytes = srgb.value;
+        if (bytes.length > ANDROID_PLAY_ICON_MAX_BYTES)
+          return failure(
+            'ANDROID_PLAY_ICON_TOO_LARGE',
+            'The Google Play listing icon exceeds 1024KB.',
+            'Simplify the artwork or gradient before exporting.',
+          );
+      }
+    }
+    files.push(
+      await generatedFile(
+        `${output.outputDirectory}/${output.filename}`,
+        output.format,
+        output.dimensions,
+        bytes,
+        preset,
+      ),
+    );
+  }
+  const xml = serializeAndroidAdaptiveIconXml();
+  for (const filename of ['ic_launcher.xml', 'ic_launcher_round.xml'])
+    files.push(
+      await generatedFile(
+        `android/app/src/main/res/mipmap-anydpi-v26/${filename}`,
+        'xml',
+        [],
+        xml,
+        preset,
+      ),
+    );
+  return {
+    valid: true,
+    value: files,
+    diagnostics: uniqueDiagnostics(diagnostics),
+  };
 }
 
 export async function renderAsset(
@@ -344,6 +565,8 @@ async function generatePrepared(
       'Unknown preset.',
       'Use iconkit presets to list supported targets.',
     );
+  if (presetId === 'android-app-icon')
+    return generateAndroidPreset(source, preset);
   const files: GeneratedFile[] = [];
   const diagnostics: Diagnostic[] = [];
   const cache = new Map<string, Uint8Array>();
@@ -404,10 +627,7 @@ async function generatePrepared(
   return {
     valid: true,
     value: files,
-    diagnostics: diagnostics.filter(
-      (item, index) =>
-        diagnostics.findIndex((other) => other.code === item.code) === index,
-    ),
+    diagnostics: uniqueDiagnostics(diagnostics),
   };
 }
 

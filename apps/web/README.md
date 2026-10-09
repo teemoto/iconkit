@@ -1,8 +1,9 @@
 # @icon-kit/web
 
 IconKit's local browser composer. It accepts SVG or PNG input, previews the
-actual generated 512 px, favicon, PWA, and iOS outputs, and downloads a reproducible
-asset ZIP or saved configuration.
+actual generated 512 px, favicon, PWA, and iOS outputs, and downloads a
+reproducible asset ZIP or saved configuration. Android assets can be selected
+and exported; dedicated Android mask previews are planned as the next UI task.
 
 Users can also search 170 bundled Lucide icons, recolor them, preview the PWA
 maskable safe area and extension toolbar, and reproduce the same catalog config

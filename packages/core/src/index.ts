@@ -1,6 +1,6 @@
 /** Public, platform-neutral types for IconKit's generation engine. */
 
-export type AssetFormat = 'ico' | 'json' | 'png' | 'svg' | 'txt';
+export type AssetFormat = 'ico' | 'json' | 'png' | 'svg' | 'txt' | 'xml';
 
 export interface Dimension {
   readonly width: number;
@@ -36,7 +36,11 @@ export interface ValidationResult<T> {
 
 export type SourceFormat = 'png' | 'svg';
 export type PresetId =
-  'chrome-extension' | 'ios-app-icon' | 'pwa' | 'web-favicon';
+  | 'android-app-icon'
+  | 'chrome-extension'
+  | 'ios-app-icon'
+  | 'pwa'
+  | 'web-favicon';
 export type VectorOutput = 'never' | 'when-vector-safe';
 
 export interface FileSource {
@@ -129,7 +133,13 @@ export { composeSvg } from './compose-svg.js';
 export type { SvgComposition } from './compose-svg.js';
 export { initializeSvgRasterizer, renderSvgToPng } from './png-renderer.js';
 export type { RenderedPng } from './png-renderer.js';
-export { removeOpaquePngAlpha } from './opaque-png.js';
+export {
+  addPngSrgbChunk,
+  createMonochromePng,
+  encodeRgbaPng,
+  removeOpaquePngAlpha,
+} from './opaque-png.js';
+export type { MonochromePng } from './opaque-png.js';
 export { encodeIco } from './ico.js';
 export type { IcoImage } from './ico.js';
 export { assessVectorOutput } from './vector-output.js';
@@ -143,6 +153,17 @@ export {
   IOS_APP_ICON_SLOTS,
   serializeIosAppIconContents,
 } from './ios-app-icon-preset.js';
+export {
+  ANDROID_APP_ICON_PRESET,
+  ANDROID_DENSITIES,
+  ANDROID_PLAY_ICON_MAX_BYTES,
+  ANDROID_SAFE_PADDING,
+  serializeAndroidAdaptiveIconXml,
+} from './android-app-icon-preset.js';
+export type {
+  AndroidDensity,
+  AndroidDensityDefinition,
+} from './android-app-icon-preset.js';
 export { planOutputWrite } from './output-plan.js';
 export type { OutputWriteOptions, OutputWritePlan } from './output-plan.js';
 export {

@@ -24,6 +24,11 @@
     Confirm the generated home-screen preview is square and opaque, both iOS
     adjustments are explained, and `ios/AppIcon.appiconset/Contents.json`
     references every generated PNG.
+11. Select the Android preset with zero padding, a rounded shape, and a
+    transparent background. Confirm the safe-area, opaque-background, and
+    ignored-shape diagnostics appear. Download the ZIP and confirm the Android
+    tree contains five density folders, two adaptive XML files, and the Play
+    listing icon.
 
 ## CLI
 

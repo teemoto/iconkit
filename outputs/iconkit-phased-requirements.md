@@ -12,9 +12,10 @@
 
 - Phase 0 shared engine, config, rendering, tests, and package boundaries are
   implemented.
-- Phase 1 web favicon, PWA, iOS, and Chrome extension presets are implemented.
-- The Android asset-contract draft is complete and ready for review; its
-  generator and preview are the remaining native-target work for the MVP.
+- Phase 1 web favicon, PWA, iOS, Android, and Chrome extension generators are
+  implemented.
+- Android project validation and dedicated launcher-mask previews remain before
+  the native-target work is complete.
 
 ## Product Definition
 

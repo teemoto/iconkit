@@ -1,8 +1,9 @@
 # @icon-kit/core
 
 The deterministic, platform-neutral IconKit generation engine. It validates
-versioned configs and untrusted SVG/PNG input, renders preset assets, and
-returns bytes without reading files, writing files, or accessing the network.
+versioned configs and untrusted SVG/PNG input, renders web and native preset
+assets, and returns bytes without reading files, writing files, or accessing
+the network.
 
 ## Public workflow
 

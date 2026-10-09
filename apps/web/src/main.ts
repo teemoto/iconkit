@@ -67,6 +67,7 @@ const presetSizes: Record<PresetId, string> = {
   'web-favicon': '5 files',
   pwa: '4 files',
   'ios-app-icon': '14 files',
+  'android-app-icon': '28 files',
   'chrome-extension': '4 files',
 };
 for (const preset of listPresets()) {

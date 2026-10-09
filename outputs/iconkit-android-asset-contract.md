@@ -4,7 +4,7 @@
 
 - Product: IconKit
 - Decision type: Android launcher-icon preset contract
-- Status: Proposed for implementation review
+- Status: Implemented; Android project validation pending
 - Date: October 8, 2026
 - Planned preset ID: `android-app-icon`
 - Planned preset version: `1`
