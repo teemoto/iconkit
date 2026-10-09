@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#f7f6f2" />
     <meta
       name="description"
-      content="Turn your SVG or PNG into a complete favicon, PWA, and extension asset pack. Private, local, and reproducible."
+      content="Turn your SVG or PNG into complete web, iOS, Android, PWA, and extension asset packs. Private, local, and reproducible."
     />
     <title>IconKit — One mark. Every surface.</title>
   </head>
@@ -141,8 +141,8 @@
                 >
               </div>
               <label class="guide-toggle"
-                ><input id="safe-guide" type="checkbox" /> Show maskable safe
-                area</label
+                ><input id="safe-guide" type="checkbox" /> Show safe-area
+                guides</label
               >
               <p class="field-hint" id="color-help">
                 Original artwork colors are preserved.
@@ -237,6 +237,88 @@
                 <p>Crisp at toolbar size.</p>
               </article>
             </div>
+            <section
+              id="android-preview"
+              class="android-preview"
+              aria-labelledby="android-preview-title"
+              hidden
+            >
+              <div class="android-preview-heading">
+                <div>
+                  <span class="platform-kicker">ANDROID APP ICON</span>
+                  <h3 id="android-preview-title">Across launcher masks</h3>
+                </div>
+                <div
+                  class="mask-options"
+                  role="group"
+                  aria-label="Android launcher mask"
+                >
+                  <button type="button" data-android-mask="circle">
+                    Circle
+                  </button>
+                  <button
+                    type="button"
+                    data-android-mask="squircle"
+                    aria-pressed="true"
+                  >
+                    Squircle
+                  </button>
+                  <button type="button" data-android-mask="rounded">
+                    Rounded
+                  </button>
+                  <button type="button" data-android-mask="square">
+                    Square
+                  </button>
+                </div>
+              </div>
+              <div class="android-preview-grid">
+                <article class="android-preview-card">
+                  <div
+                    id="android-mask-frame"
+                    class="android-mask-frame mask-squircle"
+                  >
+                    <img
+                      id="android-background"
+                      class="android-layer android-background"
+                      alt="Generated Android adaptive background layer"
+                    />
+                    <img
+                      id="android-foreground"
+                      class="android-layer android-foreground"
+                      alt="Generated Android adaptive foreground layer"
+                    />
+                    <span
+                      id="android-safe-guide"
+                      class="android-safe-guide"
+                      aria-hidden="true"
+                      hidden
+                    ></span>
+                  </div>
+                  <div>
+                    <strong id="android-mask-label">Squircle mask</strong>
+                    <span>Actual adaptive layers</span>
+                  </div>
+                </article>
+                <article class="android-preview-card themed-card">
+                  <div class="android-themed-frame">
+                    <img
+                      id="android-monochrome"
+                      alt="Generated Android themed monochrome layer"
+                    />
+                  </div>
+                  <div>
+                    <strong>Themed icon</strong>
+                    <span>Monochrome layer · system tint</span>
+                  </div>
+                </article>
+                <div class="android-output-summary">
+                  <span><strong>28</strong> files</span>
+                  <span><strong>5</strong> densities</span>
+                  <span><strong>108dp</strong> adaptive canvas</span>
+                  <span><strong>512px</strong> Play listing</span>
+                </div>
+              </div>
+            </section>
             <details class="output-details">
               <summary>Inside your kit <span id="output-total"></span></summary>
               <ul id="output-files"></ul>

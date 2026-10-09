@@ -26,9 +26,11 @@
     references every generated PNG.
 11. Select the Android preset with zero padding, a rounded shape, and a
     transparent background. Confirm the safe-area, opaque-background, and
-    ignored-shape diagnostics appear. Download the ZIP and confirm the Android
-    tree contains five density folders, two adaptive XML files, and the Play
-    listing icon.
+    ignored-shape diagnostics appear. Switch through all four launcher masks,
+    confirm the foreground and background layers remain aligned, and enable the
+    safe-area guide. Confirm the themed preview uses the generated monochrome
+    layer. Download the ZIP and confirm the Android tree contains five density
+    folders, two adaptive XML files, and the Play listing icon.
 
 ## CLI
 

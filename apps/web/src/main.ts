@@ -45,6 +45,13 @@ const heroImage = element<HTMLImageElement>('hero-image');
 const tabImage = element<HTMLImageElement>('tab-image');
 const homeImage = element<HTMLImageElement>('home-image');
 const extensionImage = element<HTMLImageElement>('extension-image');
+const androidPreview = element<HTMLElement>('android-preview');
+const androidMaskFrame = element<HTMLDivElement>('android-mask-frame');
+const androidMaskLabel = element<HTMLElement>('android-mask-label');
+const androidBackground = element<HTMLImageElement>('android-background');
+const androidForeground = element<HTMLImageElement>('android-foreground');
+const androidMonochrome = element<HTMLImageElement>('android-monochrome');
+const androidSafeGuide = element<HTMLElement>('android-safe-guide');
 const emptyPreview = element<HTMLDivElement>('empty-preview');
 const dropzone = element<HTMLLabelElement>('dropzone');
 const presetContainer = element<HTMLDivElement>('presets');
@@ -54,6 +61,7 @@ let catalogId: string | undefined;
 let loadedConfig: IconKitConfig | undefined;
 let latestBundle: GeneratedBundle | undefined;
 let generation = 0;
+let androidMask = 'squircle';
 const ready = Promise.all([
   fetch(resvgUrl)
     .then((response) => response.arrayBuffer())
@@ -266,6 +274,7 @@ function syncControls(): void {
     : 'Original artwork colors are preserved.';
   element<HTMLElement>('safe-area-guide').hidden =
     !safeGuide.checked || (!file && !catalogId);
+  androidSafeGuide.hidden = !safeGuide.checked || androidPreview.hidden;
   element<HTMLElement>('color-label').textContent = gradient
     ? 'Start color'
     : 'Background color';
@@ -274,9 +283,47 @@ function syncControls(): void {
   element<HTMLOutputElement>('angle-value').value = `${angle.value}°`;
 }
 
+function setAndroidMask(mask: string): void {
+  androidMask = mask;
+  androidMaskFrame.className = `android-mask-frame mask-${mask}`;
+  androidMaskLabel.textContent = `${mask[0]!.toUpperCase()}${mask.slice(1)} mask`;
+  for (const button of document.querySelectorAll<HTMLButtonElement>(
+    '[data-android-mask]',
+  ))
+    button.setAttribute(
+      'aria-pressed',
+      String(button.dataset.androidMask === mask),
+    );
+}
+
+function showAndroidPreview(bundle: GeneratedBundle): void {
+  const backgroundFile = bundle.files.find((item) =>
+    item.path.endsWith('mipmap-xxxhdpi/ic_launcher_background.png'),
+  );
+  const foregroundFile = bundle.files.find((item) =>
+    item.path.endsWith('mipmap-xxxhdpi/ic_launcher_foreground.png'),
+  );
+  const monochromeFile = bundle.files.find((item) =>
+    item.path.endsWith('mipmap-xxxhdpi/ic_launcher_monochrome.png'),
+  );
+  if (!backgroundFile || !foregroundFile || !monochromeFile) {
+    androidPreview.hidden = true;
+    return;
+  }
+  androidBackground.src = makeUrl(backgroundFile.bytes, 'image/png');
+  androidForeground.src = makeUrl(foregroundFile.bytes, 'image/png');
+  androidMonochrome.src = makeUrl(monochromeFile.bytes, 'image/png');
+  for (const image of [androidBackground, androidForeground, androidMonochrome])
+    image.hidden = false;
+  androidPreview.hidden = false;
+  androidSafeGuide.hidden = !safeGuide.checked;
+  setAndroidMask(androidMask);
+}
+
 async function update(): Promise<void> {
   syncControls();
   const run = ++generation;
+  androidPreview.hidden = true;
   if (!file && !catalogId) {
     latestBundle = undefined;
     download.disabled = true;
@@ -288,8 +335,17 @@ async function update(): Promise<void> {
     status.classList.remove('error');
     showDiagnostics([]);
     revokeUrls();
-    for (const image of [heroImage, tabImage, homeImage, extensionImage])
+    for (const image of [
+      heroImage,
+      tabImage,
+      homeImage,
+      extensionImage,
+      androidBackground,
+      androidForeground,
+      androidMonochrome,
+    ])
       image.hidden = true;
+    androidPreview.hidden = true;
     emptyPreview.hidden = false;
     return;
   }
@@ -360,6 +416,11 @@ async function update(): Promise<void> {
       bundleResult.value.files.find(
         (item) => item.path === 'pwa/icons/icon-192.png',
       ) ??
+      bundleResult.value.files.find(
+        (item) =>
+          item.path ===
+          'android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png',
+      ) ??
       heroResult.value;
     homeImage.src = makeUrl(home.bytes, 'image/png');
     const extension =
@@ -369,6 +430,7 @@ async function update(): Promise<void> {
     extensionImage.src = makeUrl(extension.bytes, 'image/png');
     for (const image of [heroImage, tabImage, homeImage, extensionImage])
       image.hidden = false;
+    showAndroidPreview(bundleResult.value);
     emptyPreview.hidden = true;
     const files = bundleResult.value.files;
     element<HTMLElement>('file-count').textContent = `${files.length} files`;
@@ -454,6 +516,12 @@ for (const input of [
 ])
   input.addEventListener('input', () => void update());
 safeGuide.addEventListener('change', syncControls);
+for (const button of document.querySelectorAll<HTMLButtonElement>(
+  '[data-android-mask]',
+))
+  button.addEventListener('click', () =>
+    setAndroidMask(button.dataset.androidMask ?? 'squircle'),
+  );
 catalogSearch.addEventListener('input', () =>
   renderCatalog(catalogSearch.value),
 );

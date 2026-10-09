@@ -699,6 +699,170 @@ input[type='color']::-webkit-color-swatch {
   height: 32px;
   border-radius: 8px;
 }
+.android-preview {
+  margin-top: 21px;
+  border: 1px solid #dfe5d8;
+  border-radius: 10px;
+  background: #fffefa;
+  padding: 19px;
+}
+.android-preview-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 17px;
+}
+.platform-kicker {
+  display: block;
+  color: #8b9684;
+  font-size: 8px;
+  font-weight: 650;
+  letter-spacing: 1.35px;
+  margin-bottom: 4px;
+}
+.android-preview-heading h3 {
+  color: #50624f;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  font-weight: 400;
+  margin: 0;
+}
+.mask-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 5px;
+}
+.mask-options button {
+  border: 1px solid #dce2d5;
+  border-radius: 999px;
+  background: #f7f8f2;
+  color: #7a8675;
+  font-size: 8px;
+  padding: 5px 8px;
+}
+.mask-options button:hover {
+  border-color: #9baa91;
+}
+.mask-options button[aria-pressed='true'] {
+  background: #3f5848;
+  border-color: #3f5848;
+  color: #fff;
+}
+.android-preview-grid {
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) minmax(160px, 1fr) 0.85fr;
+  gap: 13px;
+}
+.android-preview-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 124px;
+  border: 1px solid #e5e8df;
+  border-radius: 8px;
+  background: #f7f8f3;
+  padding: 14px;
+}
+.android-preview-card > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.android-preview-card strong {
+  color: #5e6d5c;
+  font-size: 10px;
+  font-weight: 600;
+}
+.android-preview-card span {
+  color: #98a092;
+  font-size: 8px;
+  line-height: 1.4;
+}
+.android-mask-frame,
+.android-themed-frame {
+  position: relative;
+  flex: 0 0 auto;
+  width: 84px;
+  height: 84px;
+  overflow: hidden;
+  box-shadow: 0 8px 18px #39482c1a;
+}
+.android-mask-frame.mask-circle {
+  border-radius: 50%;
+}
+.android-mask-frame.mask-squircle {
+  border-radius: 31%;
+}
+.android-mask-frame.mask-rounded {
+  border-radius: 18%;
+}
+.android-mask-frame.mask-square {
+  border-radius: 0;
+}
+.android-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.android-background {
+  z-index: 0;
+}
+.android-foreground {
+  z-index: 1;
+}
+.android-safe-guide {
+  position: absolute;
+  z-index: 2;
+  width: 61.111%;
+  height: 61.111%;
+  left: 19.444%;
+  top: 19.444%;
+  border: 1px dashed #28493fbb;
+  pointer-events: none;
+}
+.android-themed-frame {
+  display: grid;
+  place-items: center;
+  border-radius: 31%;
+  background: #395b50;
+}
+.android-themed-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 25% 20%, #55766c, transparent 55%);
+}
+.android-themed-frame img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  opacity: 0.88;
+}
+.android-output-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-content: center;
+  gap: 8px;
+  border-left: 1px solid #e2e7dc;
+  padding-left: 17px;
+}
+.android-output-summary span {
+  color: #8b9587;
+  font-size: 8px;
+  line-height: 1.2;
+}
+.android-output-summary strong {
+  display: block;
+  color: #526750;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 16px;
+  font-weight: 400;
+}
 .output-details {
   margin-top: 25px;
   border-top: 1px solid #e3e7da;
@@ -802,6 +966,23 @@ footer > span:first-child {
   .surface-card {
     padding: 13px;
   }
+  .android-preview-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .mask-options {
+    justify-content: flex-start;
+  }
+  .android-preview-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .android-output-summary {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(4, 1fr);
+    border-left: 0;
+    border-top: 1px solid #e2e7dc;
+    padding: 13px 0 0;
+  }
   .preview-caption {
     font-size: 7px;
   }
@@ -861,6 +1042,16 @@ footer > span:first-child {
   }
   .extension-card {
     grid-column: 1 / -1;
+  }
+  .android-preview {
+    padding: 14px;
+  }
+  .android-preview-grid {
+    grid-template-columns: 1fr;
+  }
+  .android-output-summary {
+    grid-column: auto;
+    grid-template-columns: 1fr 1fr;
   }
   .surface-card {
     padding: 10px;
