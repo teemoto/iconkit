@@ -1,6 +1,9 @@
 # IconKit Fixtures
 
-This corpus is consumed by future `@icon-kit/core` tests. PNG fixtures are base64 text so they remain reviewable in this planning-stage repository; test helpers decode them to `Uint8Array` before ingestion.
+This corpus is consumed by `@icon-kit/core` tests and cross-package consumer
+checks. PNG fixtures are base64 text so they remain reviewable; test helpers
+decode them to `Uint8Array` before ingestion. The `android/minimal-app` fixture
+validates generated launcher resources in a real Android application module.
 
 | Fixture                          | Expected outcome                        |
 | -------------------------------- | --------------------------------------- |

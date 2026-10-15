@@ -1,8 +1,8 @@
 # IconKit
 
 IconKit is a local-first brand asset generator for developers. Give it an SVG
-or PNG logo and it creates reproducible favicon, PWA, and Chrome extension
-asset packs from one shared engine.
+or PNG logo and it creates reproducible web, PWA, iOS, Android, and Chrome
+extension asset packs from one shared engine.
 
 ## Current status
 
@@ -47,7 +47,9 @@ Run the complete quality gate:
 corepack pnpm run lint
 corepack pnpm run typecheck
 corepack pnpm run test
+corepack pnpm run test:android-consumer:structure
 corepack pnpm run build
+corepack pnpm run test:pack
 corepack pnpm run format:check
 ```
 

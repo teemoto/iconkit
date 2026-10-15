@@ -57,8 +57,25 @@ Confirm generation succeeds without a source argument.
 corepack pnpm lint
 corepack pnpm typecheck
 corepack pnpm test
+corepack pnpm test:android-consumer:structure
 corepack pnpm build
 corepack pnpm test:pack
 corepack pnpm benchmark
 corepack pnpm format:check
 ```
+
+The structure check works without an Android toolchain. With JDK 17, Gradle
+9.5, Android SDK Platform 37, and Build Tools 36.0.0 installed, run the full
+consumer check:
+
+```sh
+corepack pnpm test:android-consumer
+```
+
+It generates the preset into a temporary copy of the minimal Android fixture
+and runs `:app:processDebugResources`. Set `ICONKIT_GRADLE` to an absolute
+Gradle executable when `gradle` is not on `PATH`.
+
+To compile the generated resources with a standalone AAPT2 binary while
+running the structure check, set `ICONKIT_AAPT2` to its absolute path. This
+provides Android resource syntax validation without a JDK or complete SDK.

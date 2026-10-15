@@ -4,8 +4,9 @@
 
 - Product: IconKit
 - Decision type: Android launcher-icon preset contract
-- Status: Implemented; Android project validation pending
+- Status: Implemented; automated Android project validation added
 - Date: October 8, 2026
+- Last updated: October 11, 2026
 - Planned preset ID: `android-app-icon`
 - Planned preset version: `1`
 
@@ -185,6 +186,11 @@ Implementation of this contract is complete when:
 8. Repeated generation remains byte-identical.
 9. A generated resource tree builds in a minimal Android application and
    previews under circle, squircle, rounded-square, and square launcher masks.
+
+Criteria 1 through 8 are covered by core tests. The minimal Android consumer
+fixture and `test:android-consumer` command cover the build portion of criterion
+9 by running Android resource processing in CI. The web composer supplies the
+four-mask preview used for the visual portion of criterion 9.
 
 ## Official Basis
 

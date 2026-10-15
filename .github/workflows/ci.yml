@@ -45,3 +45,40 @@ jobs:
 
       - name: Check formatting
         run: corepack pnpm run format:check
+
+  android-consumer:
+    name: Android consumer
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v5
+        with:
+          gradle-version: '9.5.0'
+
+      - name: Install Android SDK packages
+        run: sdkmanager 'platforms;android-37' 'build-tools;36.0.0'
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: corepack pnpm install --frozen-lockfile
+
+      - name: Compile generated Android resources
+        run: corepack pnpm run test:android-consumer

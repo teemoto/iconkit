@@ -6,7 +6,7 @@
 - Decision type: MVP preset contract
 - Status: Approved, implemented, and extended
 - Date: September 3, 2026
-- Last updated: October 8, 2026
+- Last updated: October 11, 2026
 
 ## Recommendation
 
@@ -74,8 +74,8 @@ website convenience asset rather than a substitute for this catalog.
 The implemented [`android-app-icon` contract](iconkit-android-asset-contract.md)
 defines adaptive foreground, background, and monochrome layers; legacy and
 round density resources; adaptive XML; and the separate Google Play listing
-icon. Validation in a minimal Android application remains a separate release
-task.
+icon. A minimal Android application fixture now compiles the generated resource
+tree in CI as a separate consumer check.
 
 ## Rendering Rules This Decision Implies
 

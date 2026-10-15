@@ -11,6 +11,8 @@
     "lint": "eslint .",
     "typecheck": "pnpm --filter @icon-kit/core build && pnpm -r --if-present run typecheck",
     "test": "vitest run --passWithNoTests",
+    "test:android-consumer": "pnpm --filter @icon-kit/core build && node scripts/verify-android-consumer.mjs",
+    "test:android-consumer:structure": "pnpm --filter @icon-kit/core build && node scripts/verify-android-consumer.mjs --structure-only",
     "test:pack": "pnpm build && node scripts/package-smoke.js",
     "benchmark": "pnpm --filter @icon-kit/core build && node scripts/benchmark-generation.js",
     "build": "pnpm -r --if-present run build",

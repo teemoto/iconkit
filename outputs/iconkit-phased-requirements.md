@@ -6,7 +6,7 @@
 - Type: Full requirements and phased roadmap
 - Status: Active
 - Date: July 28, 2026
-- Last updated: October 8, 2026
+- Last updated: October 11, 2026
 
 ## Current Progress
 
@@ -14,8 +14,8 @@
   implemented.
 - Phase 1 web favicon, PWA, iOS, Android, and Chrome extension generators are
   implemented.
-- Android project validation and dedicated launcher-mask previews remain before
-  the native-target work is complete.
+- Android project validation and dedicated launcher-mask previews are
+  implemented, completing the native-target work planned for Phase 1.
 
 ## Product Definition
 
