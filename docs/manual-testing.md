@@ -1,5 +1,8 @@
 # Manual alpha test plan
 
+The latest completed pass and its open findings are recorded in
+[`manual-alpha-validation-2026-10-17.md`](manual-alpha-validation-2026-10-17.md).
+
 ## Web composer
 
 1. Run `corepack pnpm dev` and open `http://127.0.0.1:5173`.
