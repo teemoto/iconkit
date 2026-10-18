@@ -28,6 +28,10 @@ plan.
   produced clear error states without a browser console error.
 - Chromium and Firefox had no page-level horizontal overflow at 320, 640, 768,
   or 1605 CSS pixels. The 640px pass represents a 1280px viewport at 200% zoom.
+- Installed Chrome passed a visible native 200% zoom check at a 1200px browser
+  window (600 CSS pixels). The sample workflow remained usable, the document
+  stayed at the viewport width, and the Android preview strip retained its
+  contained horizontal scrolling.
 - Keyboard focus used a visible 2px outline.
 - The CLI generated two byte-identical ZIPs from a source and its saved config,
   refused a collision by default, and succeeded with `--overwrite`.
@@ -38,7 +42,7 @@ plan.
 
 **Severity:** medium
 
-**Status:** resolved locally
+**Status:** resolved
 
 WebKit reported a 361px document width in a 320px viewport. Chromium and
 Firefox remained at 320px. The visually hidden `#source` and `#import-config`
@@ -54,7 +58,7 @@ visible labels.
 
 **Severity:** medium
 
-**Status:** resolved locally
+**Status:** resolved
 
 With an empty search, moving from the catalog search field to the Background
 control required 42 tab presses in Chromium and 43 in Firefox. Every rendered
@@ -70,5 +74,5 @@ console errors.
 
 ## Follow-up validation
 
-Perform one visible browser spot check at native 200% zoom before the alpha
-release.
+The native 200% zoom spot check is complete. No additional alpha-blocking
+browser issues were found.
