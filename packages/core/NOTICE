@@ -12,3 +12,20 @@ copyright notice and this permission notice appear in all copies.
 THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. See the root
 NOTICE and the upstream Lucide LICENSE for the complete notice, including the
 MIT notice for icons derived from Feather.
+
+IconKit redistributes an unmodified WebAssembly binary from @jsquash/png
+3.1.1 as dist/wasm/png.wasm.
+https://github.com/jamsinclair/jSquash
+
+@jsquash/png is licensed under the Apache License 2.0. Its PNG codec carries
+the BSD 3-Clause license and copyright notice from Google Inc. Copies of both
+licenses are included in licenses/Apache-2.0.txt and
+licenses/png-codec-BSD-3-Clause.txt.
+
+IconKit redistributes an unmodified WebAssembly binary from
+@resvg/resvg-wasm 2.6.2 as dist/wasm/resvg.wasm.
+https://github.com/yisibl/resvg-js
+
+@resvg/resvg-wasm is licensed under the Mozilla Public License 2.0. A copy of
+the license is included in licenses/MPL-2.0.html. The corresponding source is
+available from the upstream project linked above.

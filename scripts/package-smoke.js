@@ -42,6 +42,9 @@ for (const path of [
   'package/dist/wasm/png.wasm',
   'package/node.js',
   'package/NOTICE',
+  'package/licenses/Apache-2.0.txt',
+  'package/licenses/MPL-2.0.html',
+  'package/licenses/png-codec-BSD-3-Clause.txt',
   'package/README.md',
 ]) {
   if (!coreFiles.includes(path))

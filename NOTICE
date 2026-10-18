@@ -23,6 +23,12 @@ Some Lucide icons are derived from the Feather project and retain its MIT
 license. The upstream Lucide LICENSE file identifies that subset:
 https://github.com/lucide-icons/lucide/blob/main/LICENSE
 
+The @icon-kit/core package also redistributes unmodified WebAssembly binaries
+from @jsquash/png 3.1.1 and @resvg/resvg-wasm 2.6.2. Their Apache-2.0,
+BSD-3-Clause, and MPL-2.0 license texts are included under
+packages/core/licenses. See packages/core/NOTICE for the artifact mapping and
+upstream source locations.
+
 The MIT License (MIT)
 
 Copyright (c) 2013-present Cole Bemis
