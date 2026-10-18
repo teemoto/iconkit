@@ -1,6 +1,6 @@
 # Manual alpha test plan
 
-The latest completed pass and its open findings are recorded in
+The latest completed pass and its findings are recorded in
 [`manual-alpha-validation-2026-10-17.md`](manual-alpha-validation-2026-10-17.md).
 
 ## Web composer
@@ -13,7 +13,10 @@ The latest completed pass and its open findings are recorded in
 4. Enable the maskable safe-area guide and confirm the dashed circle overlays
    the preview without appearing in downloaded output.
 5. Search the icon library, select an icon, change its color, and generate a
-   ZIP. Confirm the ZIP contains `THIRD_PARTY_NOTICES.txt`.
+   ZIP. Confirm the ZIP contains `THIRD_PARTY_NOTICES.txt`. With the keyboard,
+   confirm one Tab enters the icon results, arrow keys navigate, Home and End
+   jump to the boundaries, Enter and Space select, and the next Tab leaves the
+   results.
 6. Save both file-source and catalog configs. Reload them and confirm catalog
    configs render immediately while file configs ask for their source file.
 7. Use only the keyboard to reach upload, search, icon buttons, all controls,

@@ -1,5 +1,7 @@
 # Manual alpha validation — October 17, 2026
 
+Last updated: October 18, 2026
+
 ## Scope
 
 This pass exercised the web composer in installed Chrome and in Playwright's
@@ -52,20 +54,21 @@ visible labels.
 
 **Severity:** medium
 
+**Status:** resolved locally
+
 With an empty search, moving from the catalog search field to the Background
 control required 42 tab presses in Chromium and 43 in Firefox. Every rendered
 catalog option participates in the page tab order. Focus is visible and the
 options work with Enter, but the sequence makes later controls expensive to
 reach.
 
-Use listbox keyboard behavior with one active tab stop: arrow keys move among
-icons, Home and End jump within the results, Enter or Space selects, and Tab
-moves to the next control.
+The catalog now uses one active tab stop. Left/Right and Up/Down move through
+the grid, Home and End jump to its boundaries, Enter or Space selects, and Tab
+moves to the next control. Filtered and empty result sets preserve the expected
+focus order. Chromium, Firefox, and WebKit pass the interaction checks without
+console errors.
 
 ## Follow-up validation
 
-After both findings are fixed:
-
-1. Confirm one Tab enters the catalog and the next Tab leaves it.
-2. Verify arrow-key navigation and selection in Chromium, Firefox, and WebKit.
-3. Perform one visible browser spot check at native 200% zoom.
+Perform one visible browser spot check at native 200% zoom before the alpha
+release.

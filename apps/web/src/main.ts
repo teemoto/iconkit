@@ -62,6 +62,7 @@ let loadedConfig: IconKitConfig | undefined;
 let latestBundle: GeneratedBundle | undefined;
 let generation = 0;
 let androidMask = 'squircle';
+let catalogFocusId: string | undefined;
 const ready = Promise.all([
   fetch(resvgUrl)
     .then((response) => response.arrayBuffer())
@@ -103,7 +104,43 @@ function showCatalogMeta(id: string): void {
   );
 }
 
-function renderCatalog(query = ''): void {
+function moveCatalogFocus(index: number): void {
+  const options = Array.from(
+    catalogGrid.querySelectorAll<HTMLButtonElement>('[role="option"]'),
+  );
+  const next = options[Math.max(0, Math.min(index, options.length - 1))];
+  if (!next) return;
+  for (const option of options) option.tabIndex = option === next ? 0 : -1;
+  catalogFocusId = next.dataset.catalogId;
+  next.focus();
+}
+
+function handleCatalogKeydown(
+  event: KeyboardEvent,
+  button: HTMLButtonElement,
+): void {
+  const options = Array.from(
+    catalogGrid.querySelectorAll<HTMLButtonElement>('[role="option"]'),
+  );
+  const index = options.indexOf(button);
+  if (index < 0) return;
+  const columns =
+    getComputedStyle(catalogGrid).gridTemplateColumns.split(' ').length;
+  let nextIndex = index;
+  if (event.key === 'ArrowRight') nextIndex = index + 1;
+  else if (event.key === 'ArrowLeft') nextIndex = index - 1;
+  else if (event.key === 'ArrowDown' && index + columns < options.length)
+    nextIndex = index + columns;
+  else if (event.key === 'ArrowUp' && index >= columns)
+    nextIndex = index - columns;
+  else if (event.key === 'Home') nextIndex = 0;
+  else if (event.key === 'End') nextIndex = options.length - 1;
+  else if (!event.key.startsWith('Arrow')) return;
+  event.preventDefault();
+  moveCatalogFocus(nextIndex);
+}
+
+function renderCatalog(query = '', restoreFocus = false): void {
   const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
   const matches = catalog
     .filter((icon) => {
@@ -113,6 +150,11 @@ function renderCatalog(query = ''): void {
       );
     })
     .slice(0, 40);
+  const activeId =
+    matches.find((icon) => icon.id === catalogFocusId)?.id ??
+    matches.find((icon) => icon.id === catalogId)?.id ??
+    matches[0]?.id;
+  catalogFocusId = activeId;
   catalogGrid.replaceChildren(
     ...matches.map((icon) => {
       const button = document.createElement('button');
@@ -122,19 +164,28 @@ function renderCatalog(query = ''): void {
       button.setAttribute('role', 'option');
       button.setAttribute('aria-label', icon.title);
       button.setAttribute('aria-selected', String(icon.id === catalogId));
+      button.dataset.catalogId = icon.id;
+      button.tabIndex = icon.id === activeId ? 0 : -1;
       button.innerHTML = icon.svg;
       button.addEventListener('click', () => {
+        const keepFocus = document.activeElement === button;
         catalogId = icon.id;
+        catalogFocusId = icon.id;
         file = undefined;
         sourceInput.value = '';
         loadedConfig = undefined;
         showCatalogMeta(icon.id);
-        renderCatalog(catalogSearch.value);
+        renderCatalog(catalogSearch.value, keepFocus);
         void update();
       });
+      button.addEventListener('keydown', (event) =>
+        handleCatalogKeydown(event, button),
+      );
       return button;
     }),
   );
+  if (restoreFocus)
+    catalogGrid.querySelector<HTMLButtonElement>('[tabindex="0"]')?.focus();
 }
 renderCatalog();
 
