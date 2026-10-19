@@ -39,4 +39,6 @@ usage.
 
 Run `iconkit --help` for the complete option list. See the repository
 [configuration reference](../../docs/configuration.md) and
-[preset reference](../../docs/presets.md) for details.
+[preset reference](../../docs/presets.md) for details. The
+[GitHub Actions recipe](../../docs/github-actions.md) shows how to validate a
+config and publish the generated bundle as a workflow artifact.
