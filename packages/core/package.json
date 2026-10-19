@@ -1,8 +1,17 @@
 {
   "name": "@icon-kit/core",
-  "version": "0.0.0",
+  "version": "0.1.0-alpha.0",
   "description": "Deterministic IconKit asset-generation engine.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/teemoto/iconkit.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/teemoto/iconkit/issues"
+  },
+  "homepage": "https://github.com/teemoto/iconkit#readme",
   "type": "module",
   "exports": {
     ".": {

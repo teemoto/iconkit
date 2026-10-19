@@ -11,6 +11,9 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 const cli = fileURLToPath(new URL('../bin/iconkit.js', import.meta.url));
+const packageVersion = JSON.parse(
+  readFileSync(new URL('../package.json', import.meta.url), 'utf8'),
+).version;
 const source = fileURLToPath(
   new URL('../../../fixtures/svg/simple.svg', import.meta.url),
 );
@@ -83,7 +86,7 @@ describe('CLI', () => {
       execFileSync(process.execPath, [cli, '--version'], {
         encoding: 'utf8',
       }).trim(),
-    ).toBe('0.0.1');
+    ).toBe(packageVersion);
   });
   it('generates a catalog icon directly from a portable config', () => {
     const root = temp();

@@ -59,4 +59,23 @@ for (const path of [
     throw new Error(`CLI package is missing ${path}.`);
 }
 
+const readPackage = (archive) =>
+  JSON.parse(
+    execFileSync(
+      'tar',
+      ['-xOf', join(destination, archive), 'package/package.json'],
+      {
+        encoding: 'utf8',
+      },
+    ),
+  );
+const corePackage = readPackage(core);
+const cliPackage = readPackage(cli);
+if (corePackage.version !== cliPackage.version) {
+  throw new Error('Core and CLI package versions must match.');
+}
+if (cliPackage.dependencies?.['@icon-kit/core'] !== corePackage.version) {
+  throw new Error('Packed CLI must depend on the matching core version.');
+}
+
 console.log('Core and CLI package contents verified.');
