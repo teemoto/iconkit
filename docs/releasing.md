@@ -41,22 +41,33 @@ packed files and version metadata before authorizing the registry operation.
    tar -tf release-artifacts/icon-kit-cli-0.1.0-alpha.0.tgz
    ```
 
-5. Commit and push the release candidate, then require a green GitHub Actions
-   run before publishing.
+5. Commit and push the release candidate, then run the `Release npm packages`
+   workflow from `main` with `publish` disabled. Review its uploaded tarballs.
+6. Create and push `v0.1.0-alpha.0` at the reviewed commit. Run the workflow
+   again with that tag selected and `publish` enabled. Publishing fails unless
+   the selected ref exactly matches the package version.
 
 ## Publish
 
-Publish core before CLI because the CLI declares core as a runtime dependency.
-Use a GitHub-hosted release workflow with npm trusted publishing and
-`id-token: write`; npm then authenticates with short-lived OIDC credentials and
-automatically records provenance for the public packages.
+The workflow publishes core before CLI because the CLI declares core as a
+runtime dependency. It uses a protected `npm` environment, requests only
+read-only repository access plus `id-token: write`, and records npm provenance.
+Its `publish` input defaults to false.
 
-The initial publication must use the `alpha` dist-tag:
+`@icon-kit/core` does not yet exist on npm, so its first publication cannot use
+a package-level trusted-publisher configuration. Store a granular npm publish
+token as the `NPM_TOKEN` secret on the `npm` environment for this bootstrap
+release. After both packages exist, configure `release.yml` as their trusted
+publisher and remove the token. Subsequent runs then authenticate through
+short-lived OIDC credentials.
+
+The workflow runs these commands only after the explicit publish gate. The
+initial publication uses the `alpha` dist-tag:
 
 ```sh
-npm publish release-artifacts/icon-kit-core-0.1.0-alpha.0.tgz \
+npm publish ./release-artifacts/icon-kit-core-0.1.0-alpha.0.tgz \
   --access public --tag alpha
-npm publish release-artifacts/icon-kit-cli-0.1.0-alpha.0.tgz \
+npm publish ./release-artifacts/icon-kit-cli-0.1.0-alpha.0.tgz \
   --access public --tag alpha
 ```
 
@@ -78,11 +89,12 @@ corepack pnpm dlx @icon-kit/cli@alpha generate \
 
 Confirm that the reported version is the release version, generation succeeds,
 the ZIP opens, and npm displays provenance for both packages. Then create the
-matching Git tag and GitHub release from the reviewed commit.
+GitHub release from the already tagged and reviewed commit.
 
 ## Trusted-publisher setup
 
-Configure both npm packages for the repository `teemoto/iconkit` and the exact
-release workflow filename. Trusted publishing requires a GitHub-hosted runner,
-`id-token: write`, Node 22.14.0 or newer, and npm 11.5.1 or newer. Keep ordinary
-npm write tokens disabled after OIDC publication is working.
+Configure both npm packages for the repository `teemoto/iconkit` and workflow
+filename `release.yml`. Allow direct publishing for this workflow. Trusted
+publishing requires a GitHub-hosted runner, `id-token: write`, Node 22.14.0 or
+newer, and npm 11.5.1 or newer. Keep ordinary npm write tokens disabled after
+OIDC publication is working.

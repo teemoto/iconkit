@@ -1,0 +1,131 @@
+name: Release npm packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version shared by core and CLI
+        required: true
+        default: 0.1.0-alpha.0
+      publish:
+        description: Publish to npm after all checks pass
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-release
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    name: Verify and pack
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      RELEASE_VERSION: ${{ inputs.version }}
+
+    steps:
+      - name: Check out selected ref
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24.11.1
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+
+      - name: Use trusted-publishing-compatible npm
+        run: npm install --global npm@11.6.2
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: corepack pnpm install --frozen-lockfile
+
+      - name: Verify release metadata
+        env:
+          ICONKIT_REQUIRE_TAG: ${{ inputs.publish }}
+        run: node scripts/verify-release.mjs "v${RELEASE_VERSION}"
+
+      - name: Run release quality gate
+        run: |
+          corepack pnpm run lint
+          corepack pnpm run typecheck
+          corepack pnpm run test
+          corepack pnpm run test:android-consumer:structure
+          corepack pnpm run build
+          corepack pnpm run test:pack
+          corepack pnpm run format:check
+          corepack pnpm audit --prod --audit-level moderate
+
+      - name: Pack public packages
+        run: |
+          mkdir -p release-artifacts
+          corepack pnpm --filter @icon-kit/core pack --pack-destination release-artifacts
+          corepack pnpm --filter @icon-kit/cli pack --pack-destination release-artifacts
+
+      - name: Upload reviewed tarballs
+        uses: actions/upload-artifact@v7
+        with:
+          name: iconkit-${{ inputs.version }}
+          path: release-artifacts/*.tgz
+          if-no-files-found: error
+
+  publish:
+    name: Publish to npm
+    needs: prepare
+    if: ${{ inputs.publish }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      RELEASE_VERSION: ${{ inputs.version }}
+
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24.11.1
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+
+      - name: Use trusted-publishing-compatible npm
+        run: npm install --global npm@11.6.2
+
+      - name: Download reviewed tarballs
+        uses: actions/download-artifact@v8
+        with:
+          name: iconkit-${{ inputs.version }}
+          path: release-artifacts
+
+      - name: Publish core to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: >-
+          npm publish
+          "./release-artifacts/icon-kit-core-${RELEASE_VERSION}.tgz"
+          --access public --tag alpha --provenance
+
+      - name: Publish CLI to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: >-
+          npm publish
+          "./release-artifacts/icon-kit-cli-${RELEASE_VERSION}.tgz"
+          --access public --tag alpha --provenance
+
+      - name: Verify registry versions
+        run: |
+          test "$(npm view @icon-kit/core@${RELEASE_VERSION} version)" = "${RELEASE_VERSION}"
+          test "$(npm view @icon-kit/cli@${RELEASE_VERSION} version)" = "${RELEASE_VERSION}"
