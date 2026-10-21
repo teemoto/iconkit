@@ -98,3 +98,14 @@ filename `release.yml`. Allow direct publishing for this workflow. Trusted
 publishing requires a GitHub-hosted runner, `id-token: write`, Node 22.14.0 or
 newer, and npm 11.5.1 or newer. Keep ordinary npm write tokens disabled after
 OIDC publication is working.
+
+## Latest dry-run evidence
+
+The non-publishing workflow completed successfully on October 21, 2026:
+
+- Run: [Release npm packages #39632594476](https://github.com/teemoto/iconkit/actions/runs/39632594476)
+- Commit: `9b9466672f21cc7f6dbfdb8cba903a156ee9f692`
+- Release metadata, quality gate, package creation, and artifact upload passed.
+- The npm publish job was skipped because `publish` was false.
+- Artifact: `iconkit-0.1.0-alpha.0`, 1,093,918 bytes, digest
+  `sha256:1b27e9e493d2865c9a20fd263cbb3d43900457e4808c37a2a003fef1871927e0`.
