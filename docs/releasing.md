@@ -50,9 +50,10 @@ packed files and version metadata before authorizing the registry operation.
 ## Publish
 
 The workflow publishes core before CLI because the CLI declares core as a
-runtime dependency. It uses a protected `npm` environment, requests only
-read-only repository access plus `id-token: write`, and records npm provenance.
-Its `publish` input defaults to false.
+runtime dependency. It targets an `npm` environment, requests only read-only
+repository access plus `id-token: write`, and records npm provenance. Its
+`publish` input defaults to false. Create and protect the environment before
+the first publishing run.
 
 `@icon-kit/core` does not yet exist on npm, so its first publication cannot use
 a package-level trusted-publisher configuration. Store a granular npm publish
@@ -60,6 +61,17 @@ token as the `NPM_TOKEN` secret on the `npm` environment for this bootstrap
 release. After both packages exist, configure `release.yml` as their trusted
 publisher and remove the token. Subsequent runs then authenticate through
 short-lived OIDC credentials.
+
+Before creating the release tag:
+
+1. Create the `npm` environment under the repository's **Settings →
+   Environments** page.
+2. Add the desired deployment protection rules and restrict deployment to
+   release tags.
+3. Add a valid granular npm token as the environment secret `NPM_TOKEN`. The
+   token must be able to publish public packages in the `@icon-kit` scope.
+4. Keep the workflow's `publish` input disabled until the reviewed release
+   commit is tagged.
 
 The workflow runs these commands only after the explicit publish gate. The
 initial publication uses the `alpha` dist-tag:
@@ -109,3 +121,10 @@ The non-publishing workflow completed successfully on October 21, 2026:
 - The npm publish job was skipped because `publish` was false.
 - Artifact: `iconkit-0.1.0-alpha.0`, 1,093,918 bytes, digest
   `sha256:1b27e9e493d2865c9a20fd263cbb3d43900457e4808c37a2a003fef1871927e0`.
+
+## Current publication status
+
+The release candidate and non-publishing workflow are ready. A repository API
+check on October 21, 2026 did not find an accessible `npm` environment, and the
+locally configured npm credential returned `E401`. Create the environment and
+store a valid `NPM_TOKEN` there before tagging or enabling publication.
