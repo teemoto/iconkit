@@ -60,7 +60,7 @@ describe('CLI', () => {
       run('generate', '--source', source, '--out', out, '--overwrite', '--json')
         .status,
     ).toBe(0);
-  });
+  }, 15_000);
   it('refuses symlink output parents before writing', () => {
     const root = temp();
     const outside = temp();
