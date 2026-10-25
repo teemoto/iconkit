@@ -2,7 +2,7 @@
 
 Notable changes to the public IconKit packages are recorded here.
 
-## 0.1.0-alpha.0 — 2026-10-21
+## 0.1.0-alpha.0 — 2026-10-25
 
 The first functional alpha replaces the original CLI placeholder.
 

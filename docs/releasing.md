@@ -124,7 +124,7 @@ The non-publishing workflow completed successfully on October 21, 2026:
 
 ## Current publication status
 
-The release candidate and non-publishing workflow are ready. A repository API
-check on October 21, 2026 did not find an accessible `npm` environment, and the
-locally configured npm credential returned `E401`. Create the environment and
-store a valid `NPM_TOKEN` there before tagging or enabling publication.
+The release candidate and non-publishing workflow are ready. The `npm`
+environment accepts deployments only from tags matching `v*`, and its
+`NPM_TOKEN` secret was confirmed on October 25, 2026. The bootstrap release is
+ready to tag and submit through the workflow's explicit publish gate.
