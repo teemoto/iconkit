@@ -127,5 +127,18 @@ jobs:
 
       - name: Verify registry versions
         run: |
-          test "$(npm view @icon-kit/core@${RELEASE_VERSION} version)" = "${RELEASE_VERSION}"
-          test "$(npm view @icon-kit/cli@${RELEASE_VERSION} version)" = "${RELEASE_VERSION}"
+          for attempt in $(seq 1 20); do
+            core_version="$(npm view @icon-kit/core@${RELEASE_VERSION} version 2>/dev/null || true)"
+            cli_version="$(npm view @icon-kit/cli@${RELEASE_VERSION} version 2>/dev/null || true)"
+
+            if [ "${core_version}" = "${RELEASE_VERSION}" ] && [ "${cli_version}" = "${RELEASE_VERSION}" ]; then
+              echo "Both packages are visible on npm."
+              exit 0
+            fi
+
+            echo "Registry processing is incomplete (attempt ${attempt}/20); retrying in 15 seconds."
+            sleep 15
+          done
+
+          echo "Published packages did not become visible before the verification timeout."
+          exit 1

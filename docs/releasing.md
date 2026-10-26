@@ -124,7 +124,14 @@ The non-publishing workflow completed successfully on October 21, 2026:
 
 ## Current publication status
 
-The release candidate and non-publishing workflow are ready. The `npm`
-environment accepts deployments only from tags matching `v*`, and its
-`NPM_TOKEN` secret was confirmed on October 25, 2026. The bootstrap release is
-ready to tag and submit through the workflow's explicit publish gate.
+`@icon-kit/core@0.1.0-alpha.0` and `@icon-kit/cli@0.1.0-alpha.0` were published
+under the `alpha` dist-tag on October 25, 2026. Both packages include signed
+provenance and passed a clean registry smoke test covering version output,
+preset discovery, generation, and ZIP creation.
+
+The publishing commands in [workflow run
+#40235853984](https://github.com/teemoto/iconkit/actions/runs/40235853984)
+succeeded. npm then reported that the packages were still being processed, so
+the immediate registry readback returned `E404` and marked the run failed. Both
+public manifests became available after processing completed. The workflow now
+retries registry verification for up to five minutes to cover this delay.
