@@ -128,6 +128,8 @@ The non-publishing workflow completed successfully on October 21, 2026:
 under the `alpha` dist-tag on October 25, 2026. Both packages include signed
 provenance and passed a clean registry smoke test covering version output,
 preset discovery, generation, and ZIP creation.
+[GitHub prerelease v0.1.0-alpha.0](https://github.com/teemoto/iconkit/releases/tag/v0.1.0-alpha.0)
+contains the release notes and npm package links.
 
 The publishing commands in [workflow run
 #40235853984](https://github.com/teemoto/iconkit/actions/runs/40235853984)
