@@ -55,14 +55,13 @@ repository access plus `id-token: write`, and records npm provenance. Its
 `publish` input defaults to false. Create and protect the environment before
 the first publishing run.
 
-`@icon-kit/core` does not yet exist on npm, so its first publication cannot use
-a package-level trusted-publisher configuration. Store a granular npm publish
-token as the `NPM_TOKEN` secret on the `npm` environment for this bootstrap
-release. After both packages exist, configure `release.yml` as their trusted
-publisher and remove the token. Subsequent runs then authenticate through
-short-lived OIDC credentials.
+The first alpha used a granular npm token because `@icon-kit/core` did not yet
+exist and could not have a package-level trusted publisher. Both packages now
+trust `release.yml` in `teemoto/iconkit`, scoped to the `npm` environment. The
+workflow authenticates with short-lived OIDC credentials and does not read a
+long-lived npm token.
 
-Before creating the release tag:
+The completed bootstrap steps were:
 
 1. Create the `npm` environment under the repository's **Settings →
    Environments** page.
@@ -110,6 +109,12 @@ filename `release.yml`. Allow direct publishing for this workflow. Trusted
 publishing requires a GitHub-hosted runner, `id-token: write`, Node 22.14.0 or
 newer, and npm 11.5.1 or newer. Keep ordinary npm write tokens disabled after
 OIDC publication is working.
+
+Both connections were created on October 26, 2026 with the `npm` environment,
+direct `npm publish` permission, and no general dist-tag management permission.
+They remain pending until the first OIDC publication validates them. npm
+requires that publication before October 28, 2026 at 4:21 PM UTC. The GitHub
+environment no longer contains an `NPM_TOKEN` secret.
 
 ## Latest dry-run evidence
 

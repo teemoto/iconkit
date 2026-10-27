@@ -110,16 +110,12 @@ jobs:
           path: release-artifacts
 
       - name: Publish core to npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: >-
           npm publish
           "./release-artifacts/icon-kit-core-${RELEASE_VERSION}.tgz"
           --access public --tag alpha --provenance
 
       - name: Publish CLI to npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: >-
           npm publish
           "./release-artifacts/icon-kit-cli-${RELEASE_VERSION}.tgz"
