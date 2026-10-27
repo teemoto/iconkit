@@ -118,14 +118,22 @@ environment no longer contains an `NPM_TOKEN` secret.
 
 ## Latest dry-run evidence
 
-The non-publishing workflow completed successfully on October 21, 2026:
+The `0.1.0-alpha.1` non-publishing workflow completed successfully on October
+26, 2026:
 
-- Run: [Release npm packages #39632594476](https://github.com/teemoto/iconkit/actions/runs/39632594476)
-- Commit: `9b9466672f21cc7f6dbfdb8cba903a156ee9f692`
+- Run: [Release npm packages #40426458213](https://github.com/teemoto/iconkit/actions/runs/40426458213)
+- Commit: `34607bf4b4916d5000551db641275306e0382713`
 - Release metadata, quality gate, package creation, and artifact upload passed.
 - The npm publish job was skipped because `publish` was false.
-- Artifact: `iconkit-0.1.0-alpha.0`, 1,093,918 bytes, digest
-  `sha256:1b27e9e493d2865c9a20fd263cbb3d43900457e4808c37a2a003fef1871927e0`.
+- Artifact: `iconkit-0.1.0-alpha.1`, 1,093,936 bytes, digest
+  `sha256:2901f0afc0a8468678e91bd7576fa596adf4247cb6d9bda1b9b75438b8f98197`.
+- The uploaded tarballs have the same file sets, file contents, and modes as the
+  locally reviewed tarballs. Their SHA-256 digests are
+  `39c666b3e025b78650e290988bbf2f52a34111a564dbc22863d3eb61881fa22a`
+  for the CLI and
+  `3cfb8c4e4c9743f9c54eb0597a10c72ed0bc3d41faa8c0e08c551c250b94be57`
+  for core.
+- The packed CLI manifest depends on `@icon-kit/core@0.1.0-alpha.1`.
 
 ## Current publication status
 
