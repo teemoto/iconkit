@@ -117,7 +117,9 @@ The first OIDC publication succeeded on October 26, 2026. The signed provenance
 for both packages identifies `release.yml` at tag `v0.1.0-alpha.1` as the
 publishing identity. The GitHub environment contains no `NPM_TOKEN` secret.
 The bootstrap token `iconkit-github-release` was deleted on October 27, 2026;
-the npm account now has no access tokens.
+the npm account now has no access tokens. Both packages require two-factor
+authentication and disallow bypass 2FA tokens for package changes. Their OIDC
+trusted-publisher connections remain valid under this stricter policy.
 
 ## Latest dry-run evidence
 
