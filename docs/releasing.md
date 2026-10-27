@@ -3,7 +3,7 @@
 IconKit publishes `@icon-kit/core` and `@icon-kit/cli` at the same version. The
 browser application is private and is deployed separately. Prereleases use the
 npm `alpha` dist-tag so they do not replace the stable `latest` channel. The
-current release candidate is `0.1.0-alpha.1`.
+current prerelease is `0.1.0-alpha.1`.
 
 An npm package name and version cannot be reused after publication. Review the
 packed files and version metadata before authorizing the registry operation.
@@ -61,15 +61,16 @@ trust `release.yml` in `teemoto/iconkit`, scoped to the `npm` environment. The
 workflow authenticates with short-lived OIDC credentials and does not read a
 long-lived npm token.
 
-The completed bootstrap steps were:
+The current release setup is:
 
 1. Create the `npm` environment under the repository's **Settings →
    Environments** page.
 2. Add the desired deployment protection rules and restrict deployment to
    release tags.
-3. Add a valid granular npm token as the environment secret `NPM_TOKEN`. The
-   token must be able to publish public packages in the `@icon-kit` scope.
-4. Keep the workflow's `publish` input disabled until the reviewed release
+3. Configure each npm package to trust `release.yml` in this repository and
+   require the `npm` environment.
+4. Leave the GitHub environment free of long-lived npm credentials.
+5. Keep the workflow's `publish` input disabled until the reviewed release
    commit is tagged.
 
 The workflow runs these commands only after the explicit publish gate.
@@ -112,9 +113,9 @@ OIDC publication is working.
 
 Both connections were created on October 26, 2026 with the `npm` environment,
 direct `npm publish` permission, and no general dist-tag management permission.
-They remain pending until the first OIDC publication validates them. npm
-requires that publication before October 28, 2026 at 4:21 PM UTC. The GitHub
-environment no longer contains an `NPM_TOKEN` secret.
+The first OIDC publication succeeded on October 26, 2026. The signed provenance
+for both packages identifies `release.yml` at tag `v0.1.0-alpha.1` as the
+publishing identity. The GitHub environment contains no `NPM_TOKEN` secret.
 
 ## Latest dry-run evidence
 
@@ -137,12 +138,23 @@ The `0.1.0-alpha.1` non-publishing workflow completed successfully on October
 
 ## Current publication status
 
-`@icon-kit/core@0.1.0-alpha.0` and `@icon-kit/cli@0.1.0-alpha.0` were published
-under the `alpha` dist-tag on October 25, 2026. Both packages include signed
-provenance and passed a clean registry smoke test covering version output,
-preset discovery, generation, and ZIP creation.
-[GitHub prerelease v0.1.0-alpha.0](https://github.com/teemoto/iconkit/releases/tag/v0.1.0-alpha.0)
-contains the release notes and npm package links.
+[`@icon-kit/core@0.1.0-alpha.1`](https://www.npmjs.com/package/@icon-kit/core/v/0.1.0-alpha.1)
+and
+[`@icon-kit/cli@0.1.0-alpha.1`](https://www.npmjs.com/package/@icon-kit/cli/v/0.1.0-alpha.1)
+were published under the `alpha` dist-tag on October 26, 2026 through npm
+trusted publishing. [Workflow run
+#40461126347](https://github.com/teemoto/iconkit/actions/runs/40461126347)
+passed its quality gate, published both packages, and verified them through the
+public registry. Both packages include signed SLSA provenance tied to
+`teemoto/iconkit/.github/workflows/release.yml` at tag `v0.1.0-alpha.1`.
+
+A clean registry smoke test confirmed version output, all five presets,
+generation of 60 files, and ZIP integrity. The packed CLI depends on the exact
+matching version, `@icon-kit/core@0.1.0-alpha.1`.
+
+The previous `0.1.0-alpha.0` packages remain available. [GitHub prerelease
+v0.1.0-alpha.0](https://github.com/teemoto/iconkit/releases/tag/v0.1.0-alpha.0)
+contains that release's notes and npm package links.
 
 The publishing commands in [workflow run
 #40235853984](https://github.com/teemoto/iconkit/actions/runs/40235853984)
