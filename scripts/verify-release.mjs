@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 const tag = process.argv[2];
 
 if (!tag || !/^v\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(tag)) {
-  throw new Error('Provide a release tag such as v0.1.0-alpha.0.');
+  throw new Error('Provide a release tag such as v0.1.0-alpha.1.');
 }
 
 const version = tag.slice(1);

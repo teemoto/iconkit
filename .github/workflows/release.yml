@@ -6,7 +6,7 @@ on:
       version:
         description: Version shared by core and CLI
         required: true
-        default: 0.1.0-alpha.0
+        default: 0.1.0-alpha.1
       publish:
         description: Publish to npm after all checks pass
         required: true

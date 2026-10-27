@@ -2,6 +2,17 @@
 
 Notable changes to the public IconKit packages are recorded here.
 
+## 0.1.0-alpha.1 — 2026-10-26
+
+This release validates tokenless npm publishing for both public packages.
+
+### Changed
+
+- Release publishing now authenticates through npm trusted publishing and
+  short-lived GitHub OIDC credentials.
+- Registry verification retries while npm processes newly published packages.
+- The long-running CLI generation integration test has an explicit CI timeout.
+
 ## 0.1.0-alpha.0 — 2026-10-25
 
 The first functional alpha replaces the original CLI placeholder.

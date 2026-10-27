@@ -1,9 +1,9 @@
 # Release process
 
 IconKit publishes `@icon-kit/core` and `@icon-kit/cli` at the same version. The
-browser application is private and is deployed separately. The first release
-candidate is `0.1.0-alpha.0`, published under the npm `alpha` dist-tag so it
-does not replace the stable `latest` channel.
+browser application is private and is deployed separately. Prereleases use the
+npm `alpha` dist-tag so they do not replace the stable `latest` channel. The
+current release candidate is `0.1.0-alpha.1`.
 
 An npm package name and version cannot be reused after publication. Review the
 packed files and version metadata before authorizing the registry operation.
@@ -37,13 +37,13 @@ packed files and version metadata before authorizing the registry operation.
      --pack-destination release-artifacts
    corepack pnpm --filter @icon-kit/cli pack \
      --pack-destination release-artifacts
-   tar -tf release-artifacts/icon-kit-core-0.1.0-alpha.0.tgz
-   tar -tf release-artifacts/icon-kit-cli-0.1.0-alpha.0.tgz
+   tar -tf release-artifacts/icon-kit-core-0.1.0-alpha.1.tgz
+   tar -tf release-artifacts/icon-kit-cli-0.1.0-alpha.1.tgz
    ```
 
 5. Commit and push the release candidate, then run the `Release npm packages`
    workflow from `main` with `publish` disabled. Review its uploaded tarballs.
-6. Create and push `v0.1.0-alpha.0` at the reviewed commit. Run the workflow
+6. Create and push `v0.1.0-alpha.1` at the reviewed commit. Run the workflow
    again with that tag selected and `publish` enabled. Publishing fails unless
    the selected ref exactly matches the package version.
 
@@ -72,13 +72,13 @@ The completed bootstrap steps were:
 4. Keep the workflow's `publish` input disabled until the reviewed release
    commit is tagged.
 
-The workflow runs these commands only after the explicit publish gate. The
-initial publication uses the `alpha` dist-tag:
+The workflow runs these commands only after the explicit publish gate.
+Prerelease publication uses the `alpha` dist-tag:
 
 ```sh
-npm publish ./release-artifacts/icon-kit-core-0.1.0-alpha.0.tgz \
+npm publish ./release-artifacts/icon-kit-core-0.1.0-alpha.1.tgz \
   --access public --tag alpha
-npm publish ./release-artifacts/icon-kit-cli-0.1.0-alpha.0.tgz \
+npm publish ./release-artifacts/icon-kit-cli-0.1.0-alpha.1.tgz \
   --access public --tag alpha
 ```
 
